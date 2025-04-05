@@ -66,6 +66,6 @@ CREATE TABLE sales (
 CREATE TABLE ratings (
     movieId VARCHAR(10) NOT NULL PRIMARY KEY,
     FOREIGN KEY (movieId) REFERENCES movies(id),
-    ratings FLOAT NOT NULL,
+    rating FLOAT NOT NULL,
     numVotes INT NOT NULL
 );

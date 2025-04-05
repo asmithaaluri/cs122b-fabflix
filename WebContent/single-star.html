@@ -20,6 +20,7 @@
     <title>Single Star</title>
 </head>
 <body>
+<div id="navbar"></div>
 <h1>Single Star Page</h1>
 
 <!-- H3 body is left empty here, will be populated with the data retrieved with single-star.js -->
@@ -45,10 +46,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-<!-- Load our own JS file -->
-<!-- The path is relative to single-star.html, since these two files are in the same directory -->
-<!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
-     otherwise the url is relative to the root path-->
+<script>
+    $(function(){
+        $("#navbar").load("nav.html");
+    });
+</script>
 <script src="single-star.js"></script>
 </body>
 
