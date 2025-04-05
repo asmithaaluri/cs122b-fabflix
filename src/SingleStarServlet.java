@@ -25,7 +25,7 @@ public class SingleStarServlet extends HttpServlet {
 
     public void init(ServletConfig config) {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedbexample");
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -50,11 +50,10 @@ public class SingleStarServlet extends HttpServlet {
 
         // Get a connection from dataSource and let resource manager close the connection after usage.
         try (Connection conn = dataSource.getConnection()) {
-            // Get a connection from dataSource
 
-            // Construct a query with parameter represented by "?"
-            String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m " +
-                    "where m.id = sim.movieId and sim.starId = s.id and s.id = ?";
+            String query = "SELECT * " +
+                           "FROM stars AS s, stars_in_movies as sim, movies as m " +
+                           "WHERE m.id = sim.movieId and sim.starId = s.id and s.id = ?;";
 
             // Declare our statement
             PreparedStatement statement = conn.prepareStatement(query);
@@ -70,11 +69,11 @@ public class SingleStarServlet extends HttpServlet {
 
             // Iterate through each row of rs
             while (rs.next()) {
-
-                String starId = rs.getString("starId");
                 String starName = rs.getString("name");
                 String starDob = rs.getString("birthYear");
-
+                if (rs.wasNull()){
+                    starDob = "N/A"; // birthYear not available
+                }
                 String movieId = rs.getString("movieId");
                 String movieTitle = rs.getString("title");
                 String movieYear = rs.getString("year");
@@ -83,7 +82,6 @@ public class SingleStarServlet extends HttpServlet {
                 // Create a JsonObject based on the data we retrieve from rs
 
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("star_id", starId);
                 jsonObject.addProperty("star_name", starName);
                 jsonObject.addProperty("star_dob", starDob);
                 jsonObject.addProperty("movie_id", movieId);

@@ -1,16 +1,4 @@
 /**
- * This example is following frontend and backend separation.
- *
- * Before this .js is loaded, the html skeleton is created.
- *
- * This .js performs three steps:
- *      1. Get parameter from request URL so it know which id to look for
- *      2. Use jQuery to talk to backend API to get the json data.
- *      3. Populate the data to correct html elements.
- */
-
-
-/**
  * Retrieve parameter from request URL, matching by parameter name
  * @param target String
  * @returns {*}
@@ -43,7 +31,6 @@ function handleResult(resultData) {
     // populate the star info h3
     // find the empty h3 body by id "star_info"
     let starInfoElement = jQuery("#star_info");
-
     // append two html <p> created to the h3 body, which will refresh the page
     starInfoElement.append("<p>Star Name: " + resultData[0]["star_name"] + "</p>" +
         "<p>Date Of Birth: " + resultData[0]["star_dob"] + "</p>");
@@ -58,7 +45,8 @@ function handleResult(resultData) {
     for (let i = 0; i < Math.min(10, resultData.length); i++) {
         let rowHTML = "";
         rowHTML += "<tr>";
-        rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
+        rowHTML += "<th>" + '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
+            + resultData[i]["movie_title"] + '</a>' + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
         rowHTML += "</tr>";
