@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -44,86 +45,80 @@ public class MoviesServlet extends HttpServlet {
 
             // Declare our statement
             Statement statement = conn.createStatement();
-
-            String query = "SELECT m.id, m.title, m.year, m.director FROM movies m JOIN ratings r ON m.id = r.movieId ORDER BY r.rating DESC LIMIT 20;";
+            String queryMovies = "SELECT m.id, m.title, m.year, m.director, r.ratings " +
+                                 "FROM movies m " +
+                                 "JOIN ratings r " +
+                                 "ON m.id = r.movieId " +
+                                 "ORDER BY r.ratings DESC LIMIT 20;";
 
             // Perform the query
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery(queryMovies);
 
             JsonArray jsonArray = new JsonArray();
 
+            // Prepare statements to be executed iteratively for each movie id
+            String genresQuery = "SELECT g.name " +
+                                 "FROM genres g " +
+                                 "JOIN genres_in_movies gim " +
+                                 "ON g.id = gim.genreId " +
+                                 "WHERE gim.movieId = ? " +
+                                 "LIMIT 3";
+            PreparedStatement genreStatement = conn.prepareStatement(genresQuery);
+
+            String starsQuery = "SELECT s.id, s.name " +
+                                "FROM stars s " +
+                                "JOIN stars_in_movies sim " +
+                                "ON s.id = sim.starId " +
+                                "WHERE sim.movieId = ? " +
+                                "LIMIT 3";
+            PreparedStatement starsStatement = conn.prepareStatement(starsQuery);
+
             // Iterate through each row of rs
             while (rs.next()) {
+                // Get movie info and store as JSON
                 String movie_id = rs.getString("id");
                 String title = rs.getString("title");
                 int year = rs.getInt("year");
                 String director = rs.getString("director");
+                float rating = rs.getFloat("ratings");
 
-                //                String star_name = rs.getString("name");
-                //                String star_dob = rs.getString("birthYear");
-
-                // Create a JsonObject based on the data we retrieve from rs
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("movie_id", movie_id);
                 jsonObject.addProperty("title", title);
                 jsonObject.addProperty("year", year);
                 jsonObject.addProperty("director", director);
-
-                //                jsonObject.addProperty("star_name", star_name);
-                //                jsonObject.addProperty("star_dob", star_dob);
+                jsonObject.addProperty("rating", rating);
 
                 // Get first 3 genres for current movie.
-                Statement generesStatement = conn.createStatement();
-                String genresQuery = "SELECT g.name FROM genres g JOIN genres_in_movies gim ON g.id = gim.genreId WHERE gim.movieId = '" + movie_id + "' LIMIT 3";
-                ResultSet genresQueryResult = generesStatement.executeQuery(genresQuery);
+                genreStatement.setString(1, movie_id);
+                ResultSet genresQueryResult = genreStatement.executeQuery();
                 JsonArray genresJsonArray = new JsonArray();
                 while (genresQueryResult.next()) {
                     String genreName = genresQueryResult.getString("name");
-                    if (genresQueryResult.wasNull()) {
-                        genreName = "N/A";
-                    }
                     genresJsonArray.add(genreName);
                 }
                 jsonObject.add("genres", genresJsonArray);
                 genresQueryResult.close();
-                generesStatement.close();
 
                 // Get first 3 stars for current movie.
-                Statement starsStatement = conn.createStatement();
-                String starsQuery = "SELECT s.name FROM stars s JOIN stars_in_movies sim ON s.id = sim.starId WHERE sim.movieId = '" + movie_id + "' LIMIT 3";
-                ResultSet starsQueryResult = starsStatement.executeQuery(starsQuery);
+                starsStatement.setString(1, movie_id);
+                ResultSet starsQueryResult = starsStatement.executeQuery();
                 JsonArray starsJsonArray = new JsonArray();
+                JsonArray starIdsJsonArray = new JsonArray();
                 while (starsQueryResult.next()) {
                     String starName = starsQueryResult.getString("name");
-                    if (starsQueryResult.wasNull()) {
-                        starName = "N/A";
-                    }
+                    String starId = starsQueryResult.getString("id");
                     starsJsonArray.add(starName);
+                    starIdsJsonArray.add(starId);
                 }
                 jsonObject.add("stars", starsJsonArray);
+                jsonObject.add("starIds", starIdsJsonArray);
                 starsQueryResult.close();
-                starsStatement.close();
-
-                // Get the rating of the current movie.
-                Statement ratingStatement = conn.createStatement();
-                String ratingQuery = "SELECT r.rating FROM ratings r WHERE r.movieId = '" + movie_id + "'";
-                ResultSet ratingQueryResult = ratingStatement.executeQuery(ratingQuery);
-                JsonArray ratingJsonArray = new JsonArray();
-                while (ratingQueryResult.next()) {
-                    float rating = ratingQueryResult.getFloat("rating");
-                    if (ratingQueryResult.wasNull()) {
-                        rating = 0;
-                    }
-                    ratingJsonArray.add(rating);
-                }
-                jsonObject.add("rating", ratingJsonArray);
-                ratingQueryResult.close();
-                ratingStatement.close();
-
                 jsonArray.add(jsonObject);
             }
             rs.close();
-            statement.close();
+            genreStatement.close();
+            starsStatement.close();
 
             // Log to localhost log
             request.getServletContext().log("getting " + jsonArray.size() + " results");

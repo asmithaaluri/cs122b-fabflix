@@ -49,13 +49,18 @@ function handleStarResult(resultData) {
             }
         rowHTML += "</th>";
 
-        // NEED TO BE HYPERLINKED TODO
         rowHTML += "<th>";
             let threeStars = resultData[i]["stars"];
+            let threeIds = resultData[i]["starIds"]
             if (threeStars && threeStars.length > 0) {
-                rowHTML += threeStars[0];
+                rowHTML += '<a href="single-star.html?id=' + threeIds[0] + '">' +
+                    threeStars[0] +     // display star_name for the link text
+                    '</a>'
                 for (let j = 1; j < Math.min(3, threeStars.length); j++) {
-                    rowHTML += ", " + threeStars[j];
+                    rowHTML += ", " +
+                        '<a href="single-star.html?id=' + threeIds[j] + '">' +
+                        threeStars[j] +
+                        '</a>'
                 }
             } else {
                 rowHTML += "N/A"; // No stars found.
