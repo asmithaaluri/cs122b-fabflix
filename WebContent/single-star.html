@@ -17,29 +17,82 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+
+    <style>
+        .single-star-container {
+            max-width: 90%;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.20);
+        }
+
+        #movie_table {
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        #star_info {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            color: #4b6754;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        th {
+            font-family: 'Fauna One', serif;
+            font-size: 20px;
+            color: #fff;
+            background-color: #4b6754;
+        }
+
+        td {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: black;
+        }
+
+        td a {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #486e7a; /* Blue color for links */
+            text-decoration: none;
+        }
+
+        td a:hover {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #7ec4da;
+            text-decoration: underline;
+        }
+    </style>
+
     <title>Single Star</title>
 </head>
 <body>
 <div id="navbar"></div>
-<h1>Single Star Page</h1>
 
 <!-- H3 body is left empty here, will be populated with the data retrieved with single-star.js -->
 <!-- single-star.js will find this html element by it's id "star_info" -->
 <h3 id="star_info"></h3>
-<table id=movie_table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Movie Title</th>
-        <th>Release Year</th>
-        <th>Director</th>
-        <th>
-    </tr>
-    </thead>
+<div class="single-star-container">
+    <table id=movie_table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Movie Title</th>
+            <th>Release Year</th>
+            <th>Director</th>
+        </tr>
+        </thead>
 
-    <!-- Table body is left empty here, will be populated with the data retrieved with single-star.js -->
-    <!-- single-star.js will find this html element by it's id "movie_table_body" -->
-    <tbody id=movie_table_body></tbody>
-</table>
+        <!-- Table body is left empty here, will be populated with the data retrieved with single-star.js -->
+        <!-- single-star.js will find this html element by it's id "movie_table_body" -->
+        <tbody id=movie_table_body></tbody>
+    </table>
+</div>
 
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
