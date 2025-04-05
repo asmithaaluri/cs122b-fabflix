@@ -1,16 +1,4 @@
 /**
- * This example is following frontend and backend separation.
- *
- * Before this .js is loaded, the html skeleton is created.
- *
- * This .js performs three steps:
- *      1. Get parameter from request URL so it know which id to look for
- *      2. Use jQuery to talk to backend API to get the json data.
- *      3. Populate the data to correct html elements.
- */
-
-
-/**
  * Retrieve parameter from request URL, matching by parameter name
  * @param target String
  * @returns {*}
@@ -38,38 +26,47 @@ function getParameterByName(target) {
 
 function handleResult(resultData) {
 
-    console.log("handleResult: populating star info from resultData");
-
-    // populate the star info h3
-    // find the empty h3 body by id "star_info"
-    //let starInfoElement = jQuery("#star_info");
-
-    // append two html <p> created to the h3 body, which will refresh the page
-    //starInfoElement.append("<p>Star Name: " + resultData[0]["star_name"] + "</p>" +
-        //"<p>Date Of Birth: " + resultData[0]["star_dob"] + "</p>");
-
-    // console.log("handleResult: populating movie table from resultData");
-    //
-    // // Populate the star table
-    // // Find the empty table body by id "movie_table_body"
-    // let movieTableBodyElement = jQuery("#movie_table_body");
-    //
-    // // Concatenate the html tags with resultData jsonObject to create table rows
-    // for (let i = 0; i < Math.min(10, resultData.length); i++) {
-    //     let rowHTML = "";
-    //     rowHTML += "<tr>";
-    //     rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
-    //     rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
-    //     rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
-    //     rowHTML += "</tr>";
-    //
-    //     // Append the row created to the table body, which will refresh the page
-    //     movieTableBodyElement.append(rowHTML);
-    // }
+    console.log("handleResult: populating movie info from movieData");
     let movieInfo = jQuery("#movie_info");
-    movieInfo.append("<hr></hr><h2>Movie Title: " + resultData[0]["movie_title"] + "</h2>" +
+    movieInfo.append("<h2>Movie Title: " + resultData[0]["movie_title"] + "</h2>" +
         "<h5>Movie Year: " + resultData[0]["movie_year"] + "</h5>" +
-        "<h5>Movie Director: " + resultData[0]["movie_director"] + "</h5>");
+        "<h5>Movie Director: " + resultData[0]["movie_director"] + "</h5>" +
+        "<h5>Movie Rating: " + resultData[0]["movie_rating"] + "</h5>");
+
+    let movieGenres = jQuery("#movie_genres");
+    let genreHTML = "<p>Movie Genre(s): ";
+    let genres = resultData[0]['genres'];
+    let numGenres = genres.length;
+    if (numGenres === 0){
+        genreHTML += "N/A";
+    } else {
+        genreHTML += genres[0];
+        for (let i = 1; i < numGenres; i++) {
+            genreHTML += ", " + genres[i];
+        }
+    }
+    genreHTML += "</p>";
+    movieGenres.append(genreHTML);
+
+    let movieStars = jQuery("#movie_stars");
+    let starsHTML = "<p>Movie Star(s): ";
+    let stars = resultData[0]['stars'];
+    let starIds = resultData[0]['star_ids'];
+    let numStars = stars.length;
+    if (numStars === 0){
+        starsHTML += "N/A";
+    } else {
+        starsHTML += '<a href="single-star.html?id=' + starIds[0] + '">' +
+                    stars[0] +
+                    '</a>';
+        for (let i = 1; i < numStars; i++) {
+            starsHTML += ", " + '<a href="single-star.html?id=' + starIds[i] + '">' +
+            stars[i] +
+            '</a>';
+        }
+    }
+    starsHTML += "</p>";
+    movieStars.append(starsHTML);
 }
 
 /**
