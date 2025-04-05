@@ -45,11 +45,11 @@ public class MoviesServlet extends HttpServlet {
 
             // Declare our statement
             Statement statement = conn.createStatement();
-            String queryMovies = "SELECT m.id, m.title, m.year, m.director, r.ratings " +
+            String queryMovies = "SELECT m.id, m.title, m.year, m.director, r.rating " +
                                  "FROM movies m " +
                                  "JOIN ratings r " +
                                  "ON m.id = r.movieId " +
-                                 "ORDER BY r.ratings DESC LIMIT 20;";
+                                 "ORDER BY r.rating DESC LIMIT 20;";
 
             // Perform the query
             ResultSet rs = statement.executeQuery(queryMovies);
@@ -62,7 +62,7 @@ public class MoviesServlet extends HttpServlet {
                                  "JOIN genres_in_movies gim " +
                                  "ON g.id = gim.genreId " +
                                  "WHERE gim.movieId = ? " +
-                                 "LIMIT 3";
+                                 "LIMIT 3;";
             PreparedStatement genreStatement = conn.prepareStatement(genresQuery);
 
             String starsQuery = "SELECT s.id, s.name " +
@@ -70,7 +70,7 @@ public class MoviesServlet extends HttpServlet {
                                 "JOIN stars_in_movies sim " +
                                 "ON s.id = sim.starId " +
                                 "WHERE sim.movieId = ? " +
-                                "LIMIT 3";
+                                "LIMIT 3;";
             PreparedStatement starsStatement = conn.prepareStatement(starsQuery);
 
             // Iterate through each row of rs
@@ -80,7 +80,7 @@ public class MoviesServlet extends HttpServlet {
                 String title = rs.getString("title");
                 int year = rs.getInt("year");
                 String director = rs.getString("director");
-                float rating = rs.getFloat("ratings");
+                float rating = rs.getFloat("rating");
 
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("movie_id", movie_id);
@@ -112,7 +112,7 @@ public class MoviesServlet extends HttpServlet {
                     starIdsJsonArray.add(starId);
                 }
                 jsonObject.add("stars", starsJsonArray);
-                jsonObject.add("starIds", starIdsJsonArray);
+                jsonObject.add("star_ids", starIdsJsonArray);
                 starsQueryResult.close();
                 jsonArray.add(jsonObject);
             }

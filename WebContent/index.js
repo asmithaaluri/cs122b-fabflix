@@ -1,15 +1,4 @@
 /**
- * This example is following frontend and backend separation.
- *
- * Before this .js is loaded, the html skeleton is created.
- *
- * This .js performs two steps:
- *      1. Use jQuery to talk to backend API to get the json data.
- *      2. Populate the data to correct html elements.
- */
-
-
-/**
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
@@ -29,9 +18,8 @@ function handleStarResult(resultData) {
         // Title hyperlink to single movie page.
         rowHTML +=
             "<th>" +
-            // Add a link to single-star.html with id passed with GET url parameter
             '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
-            + resultData[i]["title"] +     // display star_name for the link text
+            + resultData[i]["title"] +
             '</a>' +
             "</th>";
         rowHTML += "<th>" + resultData[i]["year"] + "</th>";
@@ -51,7 +39,7 @@ function handleStarResult(resultData) {
 
         rowHTML += "<th>";
             let threeStars = resultData[i]["stars"];
-            let threeIds = resultData[i]["starIds"]
+            let threeIds = resultData[i]["star_ids"];
             if (threeStars && threeStars.length > 0) {
                 rowHTML += '<a href="single-star.html?id=' + threeIds[0] + '">' +
                     threeStars[0] +     // display star_name for the link text
