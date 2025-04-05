@@ -17,6 +17,61 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+
+    <style>
+        .table-container {
+            max-width: 90%;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19);
+        }
+
+        #star_table {
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        #page-title {
+            font-family: Cinzel, serif;
+            font-size: 40px;
+            text-align: center;
+            color: #314b3a;
+            margin-top: 20px;
+        }
+
+        th {
+            font-family: 'Fauna One', serif;
+            font-size: 20px;
+            color: #fff;
+            background-color: #4b6754;
+        }
+
+        td a {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #486e7a; /* Blue color for links */
+            text-decoration: none;
+        }
+
+        td a:hover {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #7ec4da;
+            text-decoration: underline;
+        }
+
+        #rating-row {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #636363;
+            font-style: italic;
+        }
+
+    </style>
+
+
     <title>Star List</title>
 </head>
 <body>
@@ -24,26 +79,27 @@
 <div id="navbar"></div>
 
 
-<h1>Movies</h1>
-
-<!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
-<table id=star_table class="table table-striped">
-    <!-- Create a table header -->
-    <thead>
-    <tr>
-        <!-- Titles of each column-->
-        <th>Title</th>
-        <th>Year</th>
-        <th>Director</th>
-        <th>Genres</th>
-        <th>Stars</th>
-        <th>Rating</th>
-    </tr>
-    </thead>
-    <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
-    <!-- Again, id "star_table_body" is useful for jQuery to find this html element -->
-    <tbody id=star_table_body></tbody>
-</table>
+<h1 id="page-title">Top 20 Rated Movies</h1>
+<div class="table-container">
+    <!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
+    <table id=star_table class="table table-striped">
+        <!-- Create a table header -->
+        <thead>
+        <tr>
+            <!-- Titles of each column-->
+            <th>Title</th>
+            <th>Year</th>
+            <th>Director</th>
+            <th>Genres</th>
+            <th>Stars</th>
+            <th>Rating</th>
+        </tr>
+        </thead>
+        <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
+        <!-- Again, id "star_table_body" is useful for jQuery to find this html element -->
+        <tbody id=star_table_body></tbody>
+    </table>
+</div>
 
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

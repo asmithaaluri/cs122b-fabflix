@@ -17,15 +17,15 @@ function handleStarResult(resultData) {
         rowHTML += "<tr>";
         // Title hyperlink to single movie page.
         rowHTML +=
-            "<th>" +
+            "<td>" +
             '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
             + resultData[i]["title"] +
             '</a>' +
-            "</th>";
-        rowHTML += "<th>" + resultData[i]["year"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["director"] + "</th>";
+            "</td>";
+        rowHTML += "<td>" + resultData[i]["year"] + "</td>";
+        rowHTML += "<td>" + resultData[i]["director"] + "</td>";
 
-        rowHTML += "<th>";
+        rowHTML += "<td>";
             let threeGenres = resultData[i]["genres"];
             if (threeGenres && threeGenres.length > 0) {
                 rowHTML += threeGenres[0];
@@ -35,9 +35,9 @@ function handleStarResult(resultData) {
             } else {
                 rowHTML += "N/A"; // No genres found.
             }
-        rowHTML += "</th>";
+        rowHTML += "</td>";
 
-        rowHTML += "<th>";
+        rowHTML += "<td>";
             let threeStars = resultData[i]["stars"];
             let threeIds = resultData[i]["star_ids"];
             if (threeStars && threeStars.length > 0) {
@@ -53,9 +53,9 @@ function handleStarResult(resultData) {
             } else {
                 rowHTML += "N/A"; // No stars found.
             }
-        rowHTML += "</th>";
+        rowHTML += "</td>";
 
-        rowHTML += "<th>" + resultData[i]["rating"] + "</th>";
+        rowHTML += "<td id='rating-row'>" + resultData[i]["rating"] + "</td>";
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page
