@@ -65,7 +65,7 @@ public class MoviesServlet extends HttpServlet {
                                  "LIMIT 3";
             PreparedStatement genreStatement = conn.prepareStatement(genresQuery);
 
-            String starsQuery = "SELECT s.name " +
+            String starsQuery = "SELECT s.id, s.name " +
                                 "FROM stars s " +
                                 "JOIN stars_in_movies sim " +
                                 "ON s.id = sim.starId " +
@@ -104,11 +104,15 @@ public class MoviesServlet extends HttpServlet {
                 starsStatement.setString(1, movie_id);
                 ResultSet starsQueryResult = starsStatement.executeQuery();
                 JsonArray starsJsonArray = new JsonArray();
+                JsonArray starIdsJsonArray = new JsonArray();
                 while (starsQueryResult.next()) {
                     String starName = starsQueryResult.getString("name");
+                    String starId = starsQueryResult.getString("id");
                     starsJsonArray.add(starName);
+                    starIdsJsonArray.add(starId);
                 }
                 jsonObject.add("stars", starsJsonArray);
+                jsonObject.add("starIds", starIdsJsonArray);
                 starsQueryResult.close();
                 jsonArray.add(jsonObject);
             }
