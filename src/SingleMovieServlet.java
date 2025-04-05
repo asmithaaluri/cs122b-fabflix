@@ -53,9 +53,11 @@ public class SingleMovieServlet extends HttpServlet {
             JsonArray jsonArray = new JsonArray();
             JsonObject jsonObject = new JsonObject();
 
-            // Get title, year, and director of the current movie.
-            String movieInfoQuery = "SELECT title, year, director " +
+            // Get title, year, director, and rating of the current movie.
+            String movieInfoQuery = "SELECT title, year, director, rating " +
                                     "FROM movies " +
+                                    "JOIN ratings r " +
+                                    "ON movies.id = r.movieId " +
                                     "WHERE id = ?;";
             PreparedStatement movieInfoStatement = conn.prepareStatement(movieInfoQuery);
             movieInfoStatement.setString(1, id);
@@ -64,9 +66,11 @@ public class SingleMovieServlet extends HttpServlet {
                 String movieTitle = movieInfoQueryResult.getString("title");
                 int movieYear = movieInfoQueryResult.getInt("year");
                 String movieDirector = movieInfoQueryResult.getString("director");
+                float rating = movieInfoQueryResult.getFloat("rating");
                 jsonObject.addProperty("movie_title", movieTitle);
                 jsonObject.addProperty("movie_year", movieYear);
                 jsonObject.addProperty("movie_director", movieDirector);
+                jsonObject.addProperty("movie_rating", rating);
             }
             movieInfoQueryResult.close();
             movieInfoStatement.close();
@@ -110,18 +114,6 @@ public class SingleMovieServlet extends HttpServlet {
             jsonObject.add("star_ids", starIdsJsonArray);
             starsQueryResult.close();
             starsStatement.close();
-
-            // Get movie rating
-            String ratingQuery = "SELECT rating " +
-                                 "FROM ratings " +
-                                 "WHERE movieId = ?;";
-            PreparedStatement ratingStatement = conn.prepareStatement(ratingQuery);
-            ratingStatement.setString(1, id);
-            ResultSet ratingQueryResult = ratingStatement.executeQuery();
-            while (ratingQueryResult.next()) {
-                float rating = ratingQueryResult.getFloat("rating");
-                jsonObject.addProperty("movie_rating", rating);
-            }
 
             jsonArray.add(jsonObject);
             // Write JSON string to output
