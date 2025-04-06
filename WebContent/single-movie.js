@@ -28,13 +28,14 @@ function handleResult(resultData) {
 
     console.log("handleResult: populating movie info from movieData");
     let movieInfo = jQuery("#movie_info");
-    movieInfo.append("<h2>Movie Title: " + resultData[0]["movie_title"] + "</h2>" +
-        "<h5>Movie Year: " + resultData[0]["movie_year"] + "</h5>" +
-        "<h5>Movie Director: " + resultData[0]["movie_director"] + "</h5>" +
-        "<h5>Movie Rating: " + resultData[0]["movie_rating"] + "</h5>");
+    movieInfo.append(
+        "<h2>" + resultData[0]["movie_title"] + " (" + resultData[0]["movie_year"] + ")</h2>" +
+        "<h5><strong>Director: " + resultData[0]["movie_director"] + "</h5>" +
+        "<h5><strong>Rating: " + resultData[0]["movie_rating"] + "</h5>"
+    );
 
     let movieGenres = jQuery("#movie_genres");
-    let genreHTML = "<p>Movie Genre(s): ";
+    let genreHTML = "<h5><strong>Genre(s): ";
     let genres = resultData[0]['genres'];
     let numGenres = genres.length;
     if (numGenres === 0){
@@ -45,11 +46,11 @@ function handleResult(resultData) {
             genreHTML += ", " + genres[i];
         }
     }
-    genreHTML += "</p>";
+    genreHTML += "</h5>";
     movieGenres.append(genreHTML);
 
     let movieStars = jQuery("#movie_stars");
-    let starsHTML = "<p>Movie Star(s): ";
+    let starsHTML = "<h5><strong>Star(s): ";
     let stars = resultData[0]['stars'];
     let starIds = resultData[0]['star_ids'];
     let numStars = stars.length;
@@ -65,7 +66,7 @@ function handleResult(resultData) {
             '</a>';
         }
     }
-    starsHTML += "</p>";
+    starsHTML += "</h5>";
     movieStars.append(starsHTML);
 }
 

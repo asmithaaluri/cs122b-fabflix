@@ -10,16 +10,79 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+
+  <style>
+    .single-movie-container {
+      max-width: 90%;
+      margin: 0 auto;
+      background-color: rgba(255, 255, 255, 1);
+      border-radius: 20px;
+      border-style: solid;
+      border-color: #314b3a;
+      border-width: 5px;
+      box-shadow: 0 15px 20px rgba(0, 0, 0, 0.20);
+      margin-top: 20px;
+      padding: 10px;
+    }
+
+    #movie_info h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 40px;
+      text-align: center;
+      color: #314b3a;
+      padding: 5px;
+      font-weight: bold;
+    }
+
+    #movie_info h5 {
+      font-family: 'Fauna One', serif;
+      font-size: 20px;
+      color: #496e55;
+      padding: 5px;
+    }
+
+    #movie_genres {
+      font-family: 'Fauna One', serif;
+      font-size: 20px;
+      color: #496e55;
+      padding: 5px;
+    }
+
+    #movie_stars {
+      font-family: 'Fauna One', serif;
+      font-size: 20px;
+      color: #496e55;
+      padding: 5px;
+    }
+
+  #movie_stars a {
+    font-family: 'Fauna One', serif;
+    font-size: 20px;
+    color: #486e7a; /* Blue color for links */
+    text-decoration: none;
+  }
+
+  #movie_stars a:hover {
+    font-family: 'Fauna One', serif;
+    font-size: 20px;
+    color: #7ec4da;
+    text-decoration: underline;
+  }
+
+  </style>
+
   <title>Single Movie</title>
 </head>
 <body>
 <div id="navbar"></div>
-<h1>Single Movie Page</h1>
 
-<!-- populated with the data retrieved with single-movie.js -->
-<h3 id="movie_info"></h3>
-<h5 id="movie_genres"></h5>
-<h5 id="movie_stars"></h5>
+<div class="single-movie-container">
+  <!-- populated with the data retrieved with single-movie.js -->
+  <h3 id="movie_info"></h3>
+  <h5 id="movie_genres"></h5>
+  <h5 id="movie_stars"></h5>
+</div>
 
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
