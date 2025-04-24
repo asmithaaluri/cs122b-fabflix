@@ -49,26 +49,49 @@
       padding: 5px;
     }
 
-    #movie_stars {
+    #movie_stars, #movie_genres {
       font-family: 'Fauna One', serif;
       font-size: 20px;
       color: #496e55;
       padding: 5px;
     }
 
-  #movie_stars a {
+  #movie_stars a, #movie_genres a {
     font-family: 'Fauna One', serif;
     font-size: 20px;
     color: #486e7a; /* Blue color for links */
     text-decoration: none;
   }
 
-  #movie_stars a:hover {
+  #movie_stars a:hover, #movie_genres a:hover {
     font-family: 'Fauna One', serif;
     font-size: 20px;
     color: #7ec4da;
     text-decoration: underline;
   }
+
+    button, #add-to-cart-button {
+      font-family: 'Fauna One', serif;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      background-color: #486e7a;
+      padding: 10px 20px;
+      outline: none;
+    }
+
+    button:hover, #add-to-cart-button:hover {
+      color: white;
+      background-color: #7ec4da;
+    }
+
+    button, #add-to-cart-button {
+      transition-duration: 0.3s;
+    }
 
   </style>
 
@@ -82,6 +105,7 @@
   <h3 id="movie_info"></h3>
   <h5 id="movie_genres"></h5>
   <h5 id="movie_stars"></h5>
+  <h5 id="add_to_cart"></h5>
 </div>
 
 <!-- Load jQuery and Bootstrap JS -->

@@ -2,76 +2,62 @@
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
-function handleStarResult(resultData) {
-    console.log("handleMoviesResult: populating movies table from resultData");
 
-    // Populate the star table
-    // Find the empty table body by id "star_table_body"
-    let starTableBodyElement = jQuery("#star_table_body");
+function handleResult(resultData) {
 
-    // Iterate through resultData, no more than 10 entries
-    for (let i = 0; i < Math.min(20, resultData.length); i++) {
+    // ---------- BROWSING BY MOVIE GENRES ----------
+    console.log("handleResult: populating alphabetical list of genres from resultData");
 
-        // Concatenate the html tags with resultData jsonObject
-        let rowHTML = "";
-        rowHTML += "<tr>";
-        // Title hyperlink to single movie page.
+    // From the html, grab the id where we will place this list of genres.
+    let genreBodyElement = jQuery("#alphabetical_genre_list");
+
+    // Concatenate the html tags with resultData jsonObject to create table rows
+    let rowHTML = "";
+    for (let i = 0; i < resultData.length; i++) {
         rowHTML +=
-            "<td>" +
-            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
-            + resultData[i]["title"] +
-            '</a>' +
-            "</td>";
-        rowHTML += "<td>" + resultData[i]["year"] + "</td>";
-        rowHTML += "<td>" + resultData[i]["director"] + "</td>";
-
-        rowHTML += "<td>";
-            let threeGenres = resultData[i]["genres"];
-            if (threeGenres && threeGenres.length > 0) {
-                rowHTML += threeGenres[0];
-                for (let j = 1; j < Math.min(3, threeGenres.length); j++) {
-                    rowHTML += ", " + threeGenres[j];
-                }
-            } else {
-                rowHTML += "N/A"; // No genres found.
-            }
-        rowHTML += "</td>";
-
-        rowHTML += "<td>";
-            let threeStars = resultData[i]["stars"];
-            let threeIds = resultData[i]["star_ids"];
-            if (threeStars && threeStars.length > 0) {
-                rowHTML += '<a href="single-star.html?id=' + threeIds[0] + '">' +
-                    threeStars[0] +     // display star_name for the link text
-                    '</a>'
-                for (let j = 1; j < Math.min(3, threeStars.length); j++) {
-                    rowHTML += ", " +
-                        '<a href="single-star.html?id=' + threeIds[j] + '">' +
-                        threeStars[j] +
-                        '</a>'
-                }
-            } else {
-                rowHTML += "N/A"; // No stars found.
-            }
-        rowHTML += "</td>";
-
-        rowHTML += "<td id='rating-row'>" + resultData[i]["rating"] + "</td>";
-        rowHTML += "</tr>";
-
-        // Append the row created to the table body, which will refresh the page
-        starTableBodyElement.append(rowHTML);
+            '<a href="list.html?genre=' + resultData[i]['genre_id'] + '">'
+            + resultData[i]["genre_name"] +
+            ' </a>';
     }
-}
 
+    // Append the row created to the table body, which will refresh the page
+    genreBodyElement.append(rowHTML);
+
+    // ---------- BROWSING BY MOVIE TITLES ----------
+    console.log("handleResult: populating alphanumerical list of characters including *");
+    let titleBodyElement = jQuery("#alphanumeric_title_character_list");
+
+    let alphanumeric_characters_without_star = [];
+
+    for (let i = 65; i < 91; i++) { // Adding A through Z to array.
+        alphanumeric_characters_without_star.push(String.fromCharCode(i));
+    }
+
+    for (let i = 0; i < 10; i++) { // Adding digits 0 to 9 to array.
+        alphanumeric_characters_without_star.push(i);
+    }
+
+    rowHTML = "";
+    for (let i = 0; i < alphanumeric_characters_without_star.length; i++) {
+        rowHTML +=
+            '<a href="list.html?prefix=' + alphanumeric_characters_without_star[i] + '">'
+            + alphanumeric_characters_without_star[i] +
+            ' </a>';
+    }
+    rowHTML += '<a href="list.html?prefix=*">*</a>';  // Add the star
+
+    titleBodyElement.append(rowHTML);
+
+}
 
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
 
-// Makes the HTTP GET request and registers on success callback function handleStarResult
+// Makes the HTTP GET request and registers on success callback function handleResult
 jQuery.ajax({
-    dataType: "json", // Setting return data type
-    method: "GET", // Setting request method
-    url: "api/movies", // Setting request url, which is mapped by StarsServlet in Stars.java
-    success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    dataType: "json",  // Setting return data type
+    method: "GET",// Setting request method
+    url: "api/genres", // Setting request url mapped to GenreServlet.java.
+    success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
 });

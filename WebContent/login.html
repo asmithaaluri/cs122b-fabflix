@@ -1,0 +1,130 @@
+<!-- This page will be redirected from any url if you are not logged in -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+
+    <style>
+
+        body {
+            height: 100%;
+            margin-top: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ededed;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 80%;
+        }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 40px;
+            text-align: center;
+            color: #314b3a;
+        }
+
+        label {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            text-align: center;
+            color: #314b3a;
+        }
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        input[type=text]:focus, input[type=password]:focus {
+            border-color: #314b3a;
+            outline: none;
+        }
+
+        input[type=submit] {
+            font-family: 'Fauna One', serif;
+            width: 80%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background-color: #314b3a;
+            color: white;
+        }
+
+        input[type=submit]:hover {
+            background-color: #486e7a;
+            color: white;
+        }
+
+        input[type=submit]:active {
+            background-color: #314b3a;
+            color: white;
+        }
+
+        ::placeholder {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #636363;
+        }
+
+        #login_error_message {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #9e6f6f;
+        }
+
+    </style>
+
+    <title>Login to Fablix</title>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login to Fablix!</h2>
+    <!-- Set the method to POST to avoid showing the username/password in the URL
+         The default action is disabled to allow your own implementation. -->
+    <form id="login_form" method="post" action="#">
+        <label><b>Username</b></label>
+        <label>
+            <input name="username" placeholder="Email Address" type="text">
+        </label>
+        <br>
+        <label><b>Password</b></label>
+        <label>
+            <input name="password" placeholder="Password" type="password">
+        </label>
+        <br>
+        <input type="submit" value="Login">
+    </form>
+
+    <div id="login_error_message"></div>
+</div>
+
+<!-- include jQuery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- include our own JS file -->
+<script src="./login.js"></script>
+
+</body>
+</html>

@@ -53,7 +53,8 @@ public class SingleStarServlet extends HttpServlet {
 
             String query = "SELECT * " +
                            "FROM stars AS s, stars_in_movies as sim, movies as m " +
-                           "WHERE m.id = sim.movieId and sim.starId = s.id and s.id = ?;";
+                           "WHERE m.id = sim.movieId and sim.starId = s.id and s.id = ?" +
+                           "ORDER BY m.year DESC, m.title;";
 
             // Declare our statement
             PreparedStatement statement = conn.prepareStatement(query);

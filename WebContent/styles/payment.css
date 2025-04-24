@@ -1,0 +1,85 @@
+.payment-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #ededed;
+}
+
+.payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 600px;
+    width: 80%;
+}
+
+h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 40px;
+    text-align: center;
+    color: #314b3a;
+}
+
+#payment_form label, #expiration_date {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    text-align: center;
+    color: #314b3a;
+}
+
+#payment_form input[type=text], #expiration_date {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+#payment_form input[type=text]:focus, #expiration_date:focus {
+    border-color: #314b3a;
+    border-width: medium;
+    outline: none;
+}
+
+#payment_form input[type=submit] {
+    font-family: 'Fauna One', serif;
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-sizing: border-box;
+    background-color: #314b3a;
+    color: white;
+}
+
+#payment_form input[type=submit]:hover {
+    background-color: #486e7a;
+    color: white;
+}
+
+#payment_form input[type=submit]:active {
+    background-color: #314b3a;
+    color: white;
+}
+
+#payment_form ::placeholder {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: #636363;
+}
+
+#login_error_message {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: #9e6f6f;
+}

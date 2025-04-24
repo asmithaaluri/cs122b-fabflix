@@ -10,8 +10,30 @@
                 <a class="nav-link" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="index.html">Top Movies</a>
+                <a class="nav-link" href="top20.html">Top Movies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="list.html">Results</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="shopping-cart.html">Checkout</a>
             </li>
         </ul>
+
+        <form id="search_form" method="GET" action="list.html">
+            <label>
+                <input name="title" placeholder="Title" type="text">
+            </label>
+            <label>
+                <input name="year" placeholder="Year" type="text">
+            </label>
+            <label>
+                <input name="director" placeholder="Director" type="text">
+            </label>
+            <label>
+                <input name="star" placeholder="Star" type="text">
+            </label>
+            <input type="submit" value="Search">
+        </form>
     </div>
 </nav>

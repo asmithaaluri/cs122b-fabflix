@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+
+    <style>
+        .table-container {
+            max-width: 90%;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.20);
+        }
+
+        #star_table {
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        #page-title {
+            font-family: 'Cinzel', serif;
+            font-size: 40px;
+            text-align: center;
+            color: #314b3a;
+            margin-top: 20px;
+        }
+
+        th {
+            font-family: 'Fauna One', serif;
+            font-size: 20px;
+            color: #fff;
+            background-color: #4b6754;
+        }
+
+        td {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: black;
+        }
+
+        td a {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #486e7a; /* Blue color for links */
+            text-decoration: none;
+        }
+
+        td a:hover {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #7ec4da;
+            text-decoration: underline;
+        }
+
+        #rating-row {
+            font-family: 'Fauna One', serif;
+            font-size: 16px;
+            color: #636363;
+            font-style: italic;
+        }
+
+        button, #add-to-cart-button {
+            font-family: 'Fauna One', serif;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            background-color: #486e7a;
+            padding: 10px 20px;
+            outline: none;
+        }
+
+        button:hover, #add-to-cart-button:hover {
+            color: white;
+            background-color: #7ec4da;
+        }
+
+        button, #add-to-cart-button {
+            transition-duration: 0.3s;
+        }
+
+        h3 {
+            text-align: right;
+            font-size: 20px;
+            padding: 15px 70px;
+            font-family: 'Cinzel', serif;
+            color: #486e7a;
+        }
+
+        #proceed-to-payment-button {
+            font-family: 'Fauna One', serif;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-left: auto;
+            margin-right: 70px;
+            margin-top: -10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            background-color: #486e7a;
+            padding: 10px 20px;
+            outline: none;
+            justify-content: right;
+        }
+
+        #proceed-to-payment-button:hover {
+            color: white;
+            background-color: #7ec4da;
+        }
+
+        #proceed-to-payment-button {
+            transition-duration: 0.3s;
+        }
+
+    </style>
+
+    <title>Shopping Cart</title>
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<h1 id="page-title">Shopping Cart</h1>
+<div class="table-container table-responsive">
+    <!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
+    <table id=star_table class="table table-striped">
+        <!-- Create a table header -->
+        <thead>
+        <tr>
+            <!-- Titles of each column-->
+            <th>Title</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <!-- Table body is left empty here, will be populated with the data retrieved with index.js -->
+        <!-- Again, id "star_table_body" is useful for jQuery to find this html element -->
+        <tbody id=star_table_body></tbody>
+    </table>
+</div>
+
+<h3>Total Price: $<span id="total_price"></span></h3>
+<button id='proceed-to-payment-button'>Proceed to Payment</button>
+
+
+<!-- Load jQuery and Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    $(function(){
+        $("#navbar").load("nav.html");
+    });
+</script>
+<!-- The path is relative to index.html, since these two files are in the same directory -->
+<script src="shopping-cart.js"></script>
+</body>
+
+</html>

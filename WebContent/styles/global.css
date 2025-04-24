@@ -1,0 +1,15 @@
+/* Buttons and Forms */
+input[type=text]:focus, input[type=password]:focus {
+    border-color: #314b3a;
+    outline: none;
+}
+
+input[type=submit]:hover {
+    background-color: #486e7a;
+    color: white;
+}
+
+input[type=submit]:active {
+    background-color: #314b3a;
+    color: white;
+}

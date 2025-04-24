@@ -1,0 +1,107 @@
+@import "global.css";
+
+.table-container {
+    max-width: 90%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.20);
+}
+
+#movie_table {
+    overflow: hidden;
+    border-radius: 10px;
+    flex: 1;
+}
+
+#page-title {
+    font-family: 'Cinzel', serif;
+    font-size: 40px;
+    text-align: center;
+    color: #314b3a;
+    margin-top: 20px;
+}
+
+#sorting {
+    text-align: right;
+    padding-right: 5%
+}
+
+th {
+    font-family: 'Fauna One', serif;
+    font-size: 20px;
+    color: #fff;
+    background-color: #4b6754;
+}
+
+td {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: black;
+}
+
+td a {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: #486e7a; /* Blue color for links */
+    text-decoration: none;
+}
+
+td a:hover {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: #7ec4da;
+    text-decoration: underline;
+}
+
+#rating-row {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: #636363;
+    font-style: italic;
+}
+
+#sorting_form {
+    text-align: right;
+    padding-right: 5%
+}
+
+#add-to-cart-button, .pagination_button {
+    font-family: 'Fauna One', serif;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: #486e7a;
+    padding: 10px 20px;
+    outline: none;
+}
+
+#add-to-cart-button:hover, .pagination_button:hover {
+    color: white;
+    background-color: #7ec4da;
+}
+
+#add-to-cart-button, .pagination_button {
+    transition-duration: 0.3s;
+}
+
+.pagination_button {
+    width: 7%
+}
+
+.pagination_button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}

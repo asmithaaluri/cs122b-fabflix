@@ -3,6 +3,8 @@ import com.google.gson.JsonObject;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import com.google.gson.JsonParser;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -51,71 +53,64 @@ public class SingleMovieServlet extends HttpServlet {
         // Get a connection from dataSource and let resource manager close the connection after usage.
         try (Connection conn = dataSource.getConnection()) {
             JsonArray jsonArray = new JsonArray();
-            JsonObject jsonObject = new JsonObject();
 
             // Get title, year, director, and rating of the current movie.
-            String movieInfoQuery = "SELECT title, year, director, rating " +
-                                    "FROM movies " +
-                                    "JOIN ratings r " +
-                                    "ON movies.id = r.movieId " +
-                                    "WHERE id = ?;";
-            PreparedStatement movieInfoStatement = conn.prepareStatement(movieInfoQuery);
-            movieInfoStatement.setString(1, id);
-            ResultSet movieInfoQueryResult = movieInfoStatement.executeQuery();
-            while (movieInfoQueryResult.next()) {
-                String movieTitle = movieInfoQueryResult.getString("title");
-                int movieYear = movieInfoQueryResult.getInt("year");
-                String movieDirector = movieInfoQueryResult.getString("director");
-                float rating = movieInfoQueryResult.getFloat("rating");
-                jsonObject.addProperty("movie_title", movieTitle);
-                jsonObject.addProperty("movie_year", movieYear);
-                jsonObject.addProperty("movie_director", movieDirector);
-                jsonObject.addProperty("movie_rating", rating);
-            }
-            movieInfoQueryResult.close();
-            movieInfoStatement.close();
-
-            // Get all genres of movie
-            String genresQuery = "SELECT g.name " +
-                                 "FROM genres g " +
-                                 "JOIN genres_in_movies gim " +
-                                 "ON g.id = gim.genreId " +
-                                 "WHERE gim.movieId = ?;";
-            PreparedStatement genreStatement = conn.prepareStatement(genresQuery);
-            genreStatement.setString(1, id);
-            ResultSet genreQueryResult = genreStatement.executeQuery();
-            JsonArray genresJsonArray = new JsonArray();
-            while (genreQueryResult.next()) {
-                String genreName = genreQueryResult.getString("name");
-                genresJsonArray.add(genreName);
-            }
-            jsonObject.add("genres", genresJsonArray);
-            genreQueryResult.close();
-            genreStatement.close();
-
-            // Get all stars of movie
-            String starsQuery = "SELECT s.id, s.name " +
+            String query = "WITH starred_movies (starId, movieCount) AS " +
+                           "( " +
+                                "SELECT s.id, COUNT(sm.movieId) " +
                                 "FROM stars s " +
-                                "JOIN stars_in_movies sim " +
-                                "ON s.id = sim.starId " +
-                                "WHERE sim.movieId = ?;";
-            PreparedStatement starsStatement = conn.prepareStatement(starsQuery);
-            starsStatement.setString(1, id);
-            ResultSet starsQueryResult = starsStatement.executeQuery();
-            JsonArray starsJsonArray = new JsonArray();
-            JsonArray starIdsJsonArray = new JsonArray();
-            while (starsQueryResult.next()) {
-                String starName = starsQueryResult.getString("name");
-                String starId = starsQueryResult.getString("id");
-                starsJsonArray.add(starName);
-                starIdsJsonArray.add(starId);
-            }
-            jsonObject.add("stars", starsJsonArray);
-            jsonObject.add("star_ids", starIdsJsonArray);
-            starsQueryResult.close();
-            starsStatement.close();
+                                "JOIN stars_in_movies sm ON s.id = sm.starId " +
+                                "GROUP BY s.id " +
+                           ") " +
+                           "SELECT m.id, m.title, m.year, m.director, COALESCE(r.rating, 0) AS rating, " +
+                           "( " +
+                                "SELECT JSON_ARRAYAGG(JSON_OBJECT('id', g.id, 'name', g.name)) " +
+                                "FROM genres_in_movies gm " +
+                                "JOIN genres g ON gm.genreId = g.id " +
+                                "WHERE gm.movieId = m.id " +
+                           ") AS genres,  " +
+                           "( " +
+                                "SELECT JSON_ARRAYAGG(JSON_OBJECT('id', s.id, 'name', s.name, 'count', star.movieCount)) " +
+                                "FROM stars_in_movies sm " +
+                                "JOIN stars s ON sm.starId = s.id " +
+                                "JOIN starred_movies star ON star.starId = s.id " +
+                                "WHERE sm.movieId = m.id " +
+                           ") AS stars " +
+                           "FROM movies m " +
+                           "LEFT JOIN ratings r ON m.id = r.movieId " +
+                           "WHERE m.id = ?;";
 
-            jsonArray.add(jsonObject);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                JsonObject jsonObject = new JsonObject();
+                String movie_id = rs.getString("id");
+                String title = rs.getString("title");
+                int year = rs.getInt("year");
+                String director = rs.getString("director");
+                float rating = rs.getFloat("rating");
+
+                jsonObject.addProperty("movie_id", movie_id);
+                jsonObject.addProperty("title", title);
+                jsonObject.addProperty("year", year);
+                jsonObject.addProperty("director", director);
+                jsonObject.addProperty("rating", rating);
+
+                String genre_map = rs.getString("genres");
+                JsonArray genreArray = JsonParser.parseString(genre_map).getAsJsonArray();
+                jsonObject.add("genres", genreArray);
+
+                String star_map = rs.getString("stars");
+                JsonArray starArray = JsonParser.parseString(star_map).getAsJsonArray();
+                jsonObject.add("stars", starArray);
+
+                jsonArray.add(jsonObject);
+            }
+            statement.close();
+            rs.close();
+            
             // Write JSON string to output
             out.write(jsonArray.toString());
             // Set response status to 200 (OK)
@@ -134,9 +129,6 @@ public class SingleMovieServlet extends HttpServlet {
         } finally {
             out.close();
         }
-
-        // Always remember to close db connection after usage. Here it's done by try-with-resources
-
     }
 
 }

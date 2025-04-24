@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+        <link rel="stylesheet" href="styles/list.css">
+
+        <title>Movie List</title>
+    </head>
+
+
+    <body>
+
+        <div id="navbar"></div>
+        <h1 id="page-title">Browse Results</h1>
+
+        <form id="sorting_form" action="list.html" method="GET">
+            <label for="movies">Movies Per Page:</label>
+            <select name="movies" id="movies" form="sorting_form">
+                <option value="10">10</option>
+                <option selected value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            <label for="sortBy">Sort By:</label>
+            <select name="sort" id="sortBy" form="sorting_form">
+                <option value="tu-ru">Title ↑, Rating ↑</option>
+                <option selected value="tu-rd">Title ↑, Rating ↓</option>
+                <option value="td-ru">Title ↓, Rating ↑</option>
+                <option value="td-rd">Title ↓, Rating ↓</option>
+                <option value="ru-tu">Rating ↑, Title ↑</option>
+                <option value="ru-td">Rating ↑, Title ↓</option>
+                <option value="rd-tu">Rating ↓, Title ↑</option>
+                <option value="rd-td">Rating ↓, Title ↓</option>
+            </select>
+            <input type="submit" value="Update">
+        </form>
+
+        <div class="table-container table-responsive">
+            <table id=movie_table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Director</th>
+                    <th>Genres</th>
+                    <th>Stars</th>
+                    <th>Rating</th>
+                    <th>Cart</th>
+                </tr>
+                </thead>
+                <tbody id=movie_table_body></tbody>
+            </table>
+        </div>
+        <div id="pagination">
+            <button id="prev_pg" class="pagination_button">Previous</button>
+            <div id="current_pg">1</div>
+            <button id="next_pg" class="pagination_button">Next</button>
+        </div>
+
+
+        <!-- Load jQuery and Bootstrap JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <script>
+            $(function(){
+                $("#navbar").load("nav.html");
+            });
+        </script>
+        <script src="list.js"></script>
+    </body>
+</html>
