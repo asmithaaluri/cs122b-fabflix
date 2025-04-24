@@ -18,6 +18,8 @@
 
 ## Project 2
 ### Project 2 Demo Video (to be linked)
+#### Extra Features
+- Logout
 
 ### LIKE/ILIKE Predicate
 - We didn't use the `ILIKE` predicate
