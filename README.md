@@ -18,15 +18,17 @@
 
 ## Project 2
 ### Project 2 Demo Video (to be linked)
+
 ### LIKE/ILIKE Predicate
 - We didn't use the `ILIKE` predicate
 - For searching, we used the `LIKE` predicate for each of the following string parameters (listed in next line) when they were non-null and non-empty
-   - String parameters: movie title, movie year, movie director, star name
-   - We implemented substring matching by enclosing the string parameter given with '%'
+   - String parameters: movie title, movie director, star name
+   - We implemented substring matching by enclosing the string parameter given (inputted by the user) with '%'
       - For example, the keyword "term", when specified in the title would result in the predicate `LIKE '%term%'` 
-   - Queries are located in `MovieSearchServlet.java`
+   - Substring matching portion of queries are located in [SearchUtility.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/src/SearchUtility.java)
 - For browsing, we used the `LIKE` predicate for the prefix
-   - To browse by a character prefix, we used `LIKE LOWER(?)`, where ? would be replaced with the concatenation of the parameter and '%'
+   - To browse by a character prefix, in [MovieList.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/09da8cb8b2425b74198b817f802ecddd13cdfb61/src/MovieListServlet.java#L107), we used `LIKE LOWER(?)`, where ? would be replaced with the concatenation of the parameter and '%'
+     
 ### Project 2 Contributions
 |Name|Contributions|
 |---|------------|
