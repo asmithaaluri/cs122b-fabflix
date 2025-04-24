@@ -89,10 +89,6 @@ td a:hover {
     transition-duration: 0.3s;
 }
 
-.pagination_button {
-    width: 7%
-}
-
 .pagination_button:disabled {
     cursor: not-allowed;
     opacity: 0.6;

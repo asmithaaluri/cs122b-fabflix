@@ -20,20 +20,16 @@
             </li>
         </ul>
 
-        <form id="search_form" method="GET" action="list.html">
-            <label>
-                <input name="title" placeholder="Title" type="text">
-            </label>
-            <label>
-                <input name="year" placeholder="Year" type="text">
-            </label>
-            <label>
-                <input name="director" placeholder="Director" type="text">
-            </label>
-            <label>
-                <input name="star" placeholder="Star" type="text">
-            </label>
-            <input type="submit" value="Search">
+        <form class="form-inline" id="search_form" method="GET" action="list.html">
+            <input class="form-control mr-sm-2" name="title" placeholder="Title" type="text">
+            <input class="form-control mr-sm-2" name="year" placeholder="Year" type="text">
+            <input class="form-control mr-sm-2" name="director" placeholder="Director" type="text">
+            <input class="form-control mr-sm-2" name="star" placeholder="Star" type="text">
+            <input class="my-2 my-sm-0" type="submit" value="Search">
+        </form>
+
+        <form class="form-inline" action="login.html" method="POST">
+            <input class="my-2 my-sm-0" type="submit" value="Logout">
         </form>
     </div>
 </nav>
