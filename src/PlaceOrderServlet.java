@@ -177,7 +177,8 @@ public class PlaceOrderServlet extends HttpServlet {
         }
 
         java.sql.Date saleDate = java.sql.Date.valueOf(LocalDate.now());
-        String insertIntoSalesQuery = "INSERT INTO sales (customerId, movieId, saleDate) VALUES (?, ?, ?)";
+        String insertIntoSalesQuery = "INSERT INTO sales (customerId, movieId, saleDate) " +
+                                      "VALUES (?, ?, ?)";
 
         try (PreparedStatement insertIntoSalesStatement = connection.prepareStatement(insertIntoSalesQuery)) {
             for (String movieId : previousCartItems) {
@@ -193,7 +194,7 @@ public class PlaceOrderServlet extends HttpServlet {
     }
 
     private boolean isExpirationDateFormattedCorrectly(String expirationDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY/MM/dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             LocalDate date = LocalDate.parse(expirationDate, formatter);
             return true;
