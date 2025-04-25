@@ -104,27 +104,6 @@ function populateTables(resultData) {
     movieBodyElement.append(rowHTML);
 }
 
-
-/**
- * Handle the items in item list
- * @param resultArray jsonObject, needs to be parsed to html
- */
-function handleCartArray(resultArray) {
-    console.log(resultArray);
-    let item_list = $("#item_list");
-    // change it to html list
-    let res = "<ul>";
-    for (let i = 0; i < resultArray.length; i++) {
-        // each item will be in a bullet point
-        res += "<li>" + resultArray[i] + "</li>";
-    }
-    res += "</ul>";
-
-    // clear the old array and show the new array in the frontend
-    item_list.html("");
-    item_list.append(res);
-}
-
 $(document).on("submit", ".cart", function (cartEvent) {
     console.log("submit cart form");
     cartEvent.preventDefault();
@@ -133,15 +112,8 @@ $(document).on("submit", ".cart", function (cartEvent) {
     $.ajax("api/index", {
         method: "POST",
         data: cartForm.serialize(),
-        success: resultDataString => {
-            let resultDataJson = JSON.parse(resultDataString);
-            handleCartArray(resultDataJson["previousCartItems"]);
-            alert("Successfully added to cart.");
-        }
+        success: () => {alert("Successfully added to cart.")}
     });
-
-    // clear input form
-    cartForm[0].reset();
 
 })
 
