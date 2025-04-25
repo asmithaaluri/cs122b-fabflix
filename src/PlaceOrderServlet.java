@@ -42,6 +42,7 @@ public class PlaceOrderServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("in the doGet of the PlaceOrderServlet");
         HttpSession session = request.getSession();
         JsonArray jsonArray = new JsonArray();
 
@@ -103,6 +104,7 @@ public class PlaceOrderServlet extends HttpServlet {
 
                     // Insert into sales table.
                     HttpSession session = request.getSession();
+                    session.setAttribute("customerId", customerId); // Create attribute for customerId.
                     addEachMovieFromCartOfCustomerToSalesTable(session, connection, customerId);
                     System.out.println("Inserted into sales database");
 
@@ -164,49 +166,29 @@ public class PlaceOrderServlet extends HttpServlet {
             return;
         }
 
+        Map<String, Integer> movieOccurrencesInCart = new HashMap<>();
+        for (String movie_id : previousCartItems) {
+            movieOccurrencesInCart.put(movie_id, movieOccurrencesInCart.getOrDefault(movie_id, 0) + 1);
+        }
+
         java.sql.Date saleDate = java.sql.Date.valueOf(LocalDate.now());
-        String insertIntoSalesQuery = "INSERT INTO sales (customerId, movieId, saleDate) " +
-                                      "VALUES (?, ?, ?)";
-        String updateQuantityQuery = "UPDATE sales " +
-                                     "SET quantity = quantity + 1 " +
-                                     "WHERE customerId = ? AND movieId = ? ";
+        String insertIntoSalesQuery = "INSERT INTO sales (customerId, movieId, saleDate, quantity) " +
+                                      "VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement insertIntoSalesStatement = connection.prepareStatement(insertIntoSalesQuery);
-             PreparedStatement updateQuantityStatement = connection.prepareStatement(updateQuantityQuery)) {
-            for (String movieId : previousCartItems) {
-                boolean updateQuantity = isMovieAlreadyInSalesTable(connection, customerId, movieId);
-                if (updateQuantity) { // Movie is already in the table.
-                    updateQuantityStatement.setInt(1, customerId);
-                    updateQuantityStatement.setString(2, movieId);
-                    updateQuantityStatement.executeUpdate();
-                } else {
-                    insertIntoSalesStatement.setInt(1, customerId);
-                    insertIntoSalesStatement.setString(2, movieId);
-                    insertIntoSalesStatement.setDate(3, saleDate);
-                    insertIntoSalesStatement.executeUpdate(); // Makes the change in the database.
-                }
+        try (PreparedStatement insertIntoSalesStatement = connection.prepareStatement(insertIntoSalesQuery)) {
+            for (Map.Entry<String, Integer> entry : movieOccurrencesInCart.entrySet()) {
+                String movieId = entry.getKey();
+                int quantity = entry.getValue();
+                insertIntoSalesStatement.setInt(1, customerId);
+                insertIntoSalesStatement.setString(2, movieId);
+                insertIntoSalesStatement.setDate(3, saleDate);
+                insertIntoSalesStatement.setInt(4, quantity);
+                insertIntoSalesStatement.executeUpdate(); // Makes the change in the database.
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean isMovieAlreadyInSalesTable(Connection connection, int customerId, String movieId) {
-        String query = "SELECT * FROM sales WHERE customerId = ? AND movieId = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, customerId);
-            statement.setString(2, movieId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                return resultSet.next();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
     }
 }
 
