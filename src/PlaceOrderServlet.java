@@ -93,18 +93,6 @@ public class PlaceOrderServlet extends HttpServlet {
             statement.setString(3, lastName);
             statement.setString(4, expirationDate);
 
-            boolean validExpirationDate = isExpirationDateFormattedCorrectly(expirationDate);
-            if (!validExpirationDate) {
-                System.out.println("Credit card expiration date is in wrong format.");
-                responseJsonObject.addProperty("status", "error");
-
-                PrintWriter out = response.getWriter();
-                out.write(responseJsonObject.toString());
-                response.setStatus(HttpServletResponse.SC_OK);
-
-                return;
-            }
-
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     System.out.println("Credit card form input valid.");
@@ -202,16 +190,5 @@ public class PlaceOrderServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-
-    private boolean isExpirationDateFormattedCorrectly(String expirationDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        try {
-            LocalDate date = LocalDate.parse(expirationDate, formatter);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
-    }
-
 }
 

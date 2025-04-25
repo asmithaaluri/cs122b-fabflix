@@ -1,15 +1,9 @@
-/**
- * Handles the data returned by the API, read the jsonObject and populate data into html elements
- * @param resultData jsonObject
- */
+// Populate HTML with price from backend
 function handleResultData(resultData) {
-    console.log("on payment page to display total price and form")
-
     $("h3").html("Total Price: $" + resultData[0]["totalPrice"]);
 }
 
 $(document).on("submit", "#payment_form", function (placeOrderEvent) {
-    console.log("place order form");
     placeOrderEvent.preventDefault();
 
     let form = document.getElementById("payment_form");
@@ -26,8 +20,6 @@ $(document).on("submit", "#payment_form", function (placeOrderEvent) {
         expiration_date: expirationDate
     };
 
-    console.log(formData);
-
     $.ajax({
         type: "POST",
         url: "api/place-order",
@@ -35,7 +27,7 @@ $(document).on("submit", "#payment_form", function (placeOrderEvent) {
         success: function(responseData) {
             if (responseData.status === "success") {
                 window.location.href = "payment-confirmation.html";
-            } else if (responseData.status === "error") {
+            } else {
                 alert("Error processing payment. Please reenter your payment information.");
             }
         }
@@ -43,14 +35,9 @@ $(document).on("submit", "#payment_form", function (placeOrderEvent) {
 });
 
 
-/**
- * Once this .js is loaded, following scripts will be executed by the browser
- */
-
-// Makes the HTTP GET request and registers on success callback function handleStarResult
 jQuery.ajax({
-    dataType: "json", // Setting return data type
-    method: "GET", // Setting request method
+    dataType: "json",
+    method: "GET",
     url: "api/place-order",
     success: (resultData) => handleResultData(resultData)
 });

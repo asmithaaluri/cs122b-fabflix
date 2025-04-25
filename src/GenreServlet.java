@@ -32,12 +32,9 @@ public class GenreServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        response.setContentType("application/json"); // Response mime type
-
-        // Output stream to STDOUT
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        // Get a connection from dataSource and let resource manager close the connection after usage.
         try (Connection conn = dataSource.getConnection();
              Statement statement = conn.createStatement()
         ) {
@@ -45,7 +42,6 @@ public class GenreServlet extends HttpServlet {
                            "FROM genres " +
                            "ORDER BY name ASC";
 
-            // Perform the query
             try (ResultSet rs = statement.executeQuery(query)) {
                 JsonArray jsonArray = new JsonArray();
                 while (rs.next()) {
@@ -59,9 +55,7 @@ public class GenreServlet extends HttpServlet {
                     jsonArray.add(jsonObject);
 
                 }
-                // Write JSON string to output
                 out.write(jsonArray.toString());
-                // Set response status to 200 (OK)
                 response.setStatus(200);
             }
             out.close();
