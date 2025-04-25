@@ -104,7 +104,7 @@ public class MovieListServlet extends HttpServlet {
             ") AS stars " +
             "FROM movies m " +
             "LEFT JOIN ratings r ON m.id = r.movieId " +
-            "WHERE LEFT(m.title, 1) LIKE LOWER(?)";
+            "WHERE LEFT(m.title, 1) LIKE ?";
     private static final String allMoviesQuery =
             "SELECT m.id, m.title, m.year, m.director, COALESCE(r.rating, 0) AS rating,  " +
             "( " +

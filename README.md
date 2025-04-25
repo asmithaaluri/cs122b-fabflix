@@ -29,8 +29,8 @@
       - For example, the keyword "term", when specified in the title would result in the predicate `LIKE '%term%'` 
    - Substring matching portion of queries are located in [SearchUtility.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/src/SearchUtility.java)
 - For browsing, we used the `LIKE` predicate for the prefix
-   - To browse by a character prefix, in [MovieList.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/09da8cb8b2425b74198b817f802ecddd13cdfb61/src/MovieListServlet.java#L107), we used `LIKE LOWER(?)`, where ? would be replaced with the character parameter (a single letter or digit)
-      - Full clause used: `LEFT(m.title, 1) LIKE LOWER(?)` to check only the first character of the title
+   - To browse by a character prefix, in [MovieList.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/09da8cb8b2425b74198b817f802ecddd13cdfb61/src/MovieListServlet.java#L107), we used `LIKE ?`, where ? would be replaced with the character parameter (a single letter or digit)
+      - Full clause used: `LEFT(m.title, 1) LIKE ?` to check only the first character of the title
      
 ### Project 2 Contributions
 |Name|Contributions|
