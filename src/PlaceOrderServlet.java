@@ -51,9 +51,45 @@ public class PlaceOrderServlet extends HttpServlet {
             totalPrice = "0";
         }
 
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("totalPrice", totalPrice);
-        jsonArray.add(jsonObject);
+        Integer confirmationCounter = (Integer) session.getAttribute("confirmationCounter");
+        Integer customerId = (Integer) session.getAttribute("customerId");
+
+        String query = "SELECT  s.id, s.movieId, s.quantity, m.title " +
+                        "FROM sales s JOIN movies m ON s.movieId = m.id " +
+                        "WHERE customerId = ? " +
+                        "ORDER BY id DESC " +
+                        "LIMIT ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, customerId);
+                statement.setInt(2, confirmationCounter);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int saleId = resultSet.getInt("id");
+                        String movieTitle = resultSet.getString("title");
+                        int quantity = resultSet.getInt("quantity");
+
+                        JsonObject saleInfoObject = new JsonObject();
+                        saleInfoObject.addProperty("saleId", saleId);
+                        saleInfoObject.addProperty("movieTitle", movieTitle);
+                        saleInfoObject.addProperty("quantity", quantity);
+                        jsonArray.add(saleInfoObject);
+                    }
+                }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        session.removeAttribute("confirmationCounter");
+        session.removeAttribute("customerId");
+
+
+        JsonObject totalPriceObject = new JsonObject();
+        totalPriceObject.addProperty("totalPrice", totalPrice);
+        jsonArray.add(totalPriceObject);
 
         response.setContentType("application/json");
 
@@ -188,6 +224,7 @@ public class PlaceOrderServlet extends HttpServlet {
                                       "VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement insertIntoSalesStatement = connection.prepareStatement(insertIntoSalesQuery)) {
+            int confirmationCounter = 0;
             for (Map.Entry<String, Integer> entry : movieOccurrencesInCart.entrySet()) {
                 String movieId = entry.getKey();
                 int quantity = entry.getValue();
@@ -196,8 +233,11 @@ public class PlaceOrderServlet extends HttpServlet {
                 insertIntoSalesStatement.setDate(3, saleDate);
                 insertIntoSalesStatement.setInt(4, quantity);
                 insertIntoSalesStatement.executeUpdate(); // Makes the change in the database.
+                confirmationCounter++;
             }
 
+            session.setAttribute("confirmationCounter", confirmationCounter);
+            session.setAttribute("customerId", customerId);
         } catch (Exception e) {
             e.printStackTrace();
         }

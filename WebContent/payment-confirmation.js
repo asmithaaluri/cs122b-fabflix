@@ -10,10 +10,9 @@ function handleResultData(resultData) {
     movieTableBodyElement.empty();
     let totalPrice = 0;
 
-    // Iterate through resultData, no more than 20 entries
-    for (let i = 0; i < resultData.length; i++) {
+    for (let i = 0; i < resultData.length - 1; i++) {
         const quantity = parseFloat(resultData[i]["quantity"]);
-        const price = parseFloat(resultData[i]["price"]);
+        const price = 1;
         totalPrice += quantity * price;
 
         // Concatenate the html tags with resultData jsonObject
@@ -22,17 +21,19 @@ function handleResultData(resultData) {
 
         rowHTML += "<td>" + resultData[i]["saleId"] + "</td>";
 
-        // Title hyperlink to single movie page.
-        rowHTML +=
-            "<td>" +
-            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
-            + resultData[i]["title"] +
-            '</a>' +
-            "</td>";
+        // // Title hyperlink to single movie page.
+        // rowHTML +=
+        //     "<td>" +
+        //     '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
+        //     + resultData[i]["title"] +
+        //     '</a>' +
+        //     "</td>";
+
+        rowHTML += "<td>" + resultData[i]["movieTitle"] + "</td>";
 
         rowHTML += "<td>" + resultData[i]["quantity"] + "</td>";
 
-        rowHTML += "<td>$" + resultData[i]["price"] + "</td>";
+        rowHTML += "<td> $1 </td>";
 
         rowHTML += "</tr>";
 
