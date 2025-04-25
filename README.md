@@ -36,4 +36,4 @@
 |Name|Contributions|
 |---|------------|
 |Asmitha|<ul><li>Task 1</li><li>Task 2: searching, browsing by genre and first character</li><li>Task 4</li></ul>|
-|Rebecca|<ul><li>Task 2: browsing by '*'</li><li>Task 3</li></ul>|
+|Rebecca|<ul><li>Task 2: browsing by '*'</li><li>Task 3</li><li>Logout</li></ul>|
