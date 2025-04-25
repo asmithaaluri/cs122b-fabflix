@@ -104,7 +104,7 @@ public class MovieListServlet extends HttpServlet {
             ") AS stars " +
             "FROM movies m " +
             "LEFT JOIN ratings r ON m.id = r.movieId " +
-            "WHERE LEFT(LOWER(m.title), 1) LIKE LOWER(?)";
+            "WHERE LEFT(m.title, 1) LIKE LOWER(?)";
     private static final String allMoviesQuery =
             "SELECT m.id, m.title, m.year, m.director, COALESCE(r.rating, 0) AS rating,  " +
             "( " +
@@ -244,7 +244,7 @@ public class MovieListServlet extends HttpServlet {
                     statement.setInt(1, Integer.parseInt(genre));
                     index++;
                 } else if (prefix != null && !prefix.equals("*")) {
-                    statement.setString(1, prefix + "%");
+                    statement.setString(1, prefix);
                     index++;
                 } else if (ptitle != null || pyear != null || pdirector != null || pstar != null) {
                     index += SearchUtility.addSearchParamsToQuery(statement, pstar, ptitle, pyear, pdirector, validYear);
