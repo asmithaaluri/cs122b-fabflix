@@ -11,14 +11,15 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+    <link rel="stylesheet" href="styles/list.css">
 
     <style>
-        #payment-confirmed-header {
+        h3 {
+            text-align: right;
+            font-size: 20px;
+            padding: 15px 70px;
             font-family: 'Cinzel', serif;
-            font-size: 40px;
-            text-align: center;
-            margin-top: 7%;
-            color: #314b3a;
+            color: #486e7a;
         }
     </style>
 
@@ -27,7 +28,21 @@
 <body>
 <div id="navbar"></div>
 
-<h3 id='payment-confirmed-header'>Payment confirmed!</h3>
+<h1 id="page-title">Payment Confirmation Summary</h1>
+<div class="table-container table-responsive">
+    <table id=movie_table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Sale ID</th>
+            <th>Movie Title</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody id=movie_table_body></tbody>
+    </table>
+</div>
+<h3>Total Price: $<span id="total_price"></span></h3>
 
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -40,6 +55,7 @@
     });
 </script>
 
+<script src="payment-confirmation.js"></script>
 </body>
 
 

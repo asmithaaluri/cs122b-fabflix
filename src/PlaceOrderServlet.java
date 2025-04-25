@@ -42,6 +42,7 @@ public class PlaceOrderServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("in the doGet of the PlaceOrderServlet");
         HttpSession session = request.getSession();
         JsonArray jsonArray = new JsonArray();
 
@@ -115,6 +116,7 @@ public class PlaceOrderServlet extends HttpServlet {
 
                     // Insert into sales table.
                     HttpSession session = request.getSession();
+                    session.setAttribute("customerId", customerId); // Create attribute for customerId.
                     addEachMovieFromCartOfCustomerToSalesTable(session, connection, customerId);
                     System.out.println("Inserted into sales database");
 
@@ -199,23 +201,6 @@ public class PlaceOrderServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean isMovieAlreadyInSalesTable(Connection connection, int customerId, String movieId) {
-        String query = "SELECT * FROM sales WHERE customerId = ? AND movieId = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, customerId);
-            statement.setString(2, movieId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                return resultSet.next();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
     }
 
     private boolean isExpirationDateFormattedCorrectly(String expirationDate) {
