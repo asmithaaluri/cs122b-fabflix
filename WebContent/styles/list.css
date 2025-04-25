@@ -62,11 +62,12 @@ td a:hover {
 }
 
 #sorting_form {
+    font-family: 'Fauna One', serif;
     text-align: right;
     padding-right: 5%
 }
 
-#add-to-cart-button, .pagination_button {
+#add-to-cart-button, .pagination_button, .logout_button {
     font-family: 'Fauna One', serif;
     text-align: center;
     text-decoration: none;
@@ -80,17 +81,13 @@ td a:hover {
     outline: none;
 }
 
-#add-to-cart-button:hover, .pagination_button:hover {
+#add-to-cart-button:hover, .pagination_button:hover, .logout_button:hover {
     color: white;
     background-color: #7ec4da;
 }
 
-#add-to-cart-button, .pagination_button {
+#add-to-cart-button, .pagination_button, .logout_button {
     transition-duration: 0.3s;
-}
-
-.pagination_button {
-    width: 7%
 }
 
 .pagination_button:disabled {
