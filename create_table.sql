@@ -61,6 +61,7 @@ CREATE TABLE sales (
     movieId VARCHAR(10) NOT NULL,
     FOREIGN KEY (movieId) REFERENCES movies (id),
     saleDate DATE NOT NULL
+--     quantity INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE ratings (
