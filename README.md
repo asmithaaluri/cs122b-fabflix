@@ -17,7 +17,7 @@
 |Rebecca|<ul><li>Create table queries</li><li>Top 20 movie page: linking stars, getting rating</li><li>Individual movie page: fetching genres, fetching/linking stars</li><li>Individual star page: linking movies</li><li>Navbar</li><li>Troubleshooting Tomcat/AWS deployment</li></ul>|
 
 ## Project 2
-### Project 2 Demo Video (to be linked)
+### [Project 2 Demo Video](https://drive.google.com/file/d/1Kg39Cnh_RcR0HtGa23J1OwdRbqC_OA6-/view?usp=sharing)
 #### Extra Features
 - Logout
 
