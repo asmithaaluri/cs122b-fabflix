@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+        <link rel="stylesheet" href="../styles/forms.css">
+
+        <title>Add Movie Star</title>
+    </head>
+    <body>
+        <div id="navbar"></div>
+        <h1>Add Movie Star</h1>
+        <h3 id="form_results"></h3>
+        <div class="form-body">
+            <div class="form-container">
+                <form id="add_star_form" class="form" method="post" action="#">
+                    <label><b>Star Name</b></label>
+                    <label>
+                        <input name="star_name" type="text" required>
+                    </label>
+                    <br>
+                    <label><b>Birth Year</b></label>
+                    <label>
+                        <input name="birth_year" type="number">
+                    </label>
+                    <br>
+                    <input type="submit" value="Add Star">
+                </form>
+            </div>
+        </div>
+
+        <!-- Load jQuery and Bootstrap JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <script>
+            $(function(){
+                $("#navbar").load("nav.html");
+            });
+        </script>
+        <script src="add-star.js"></script>
+    </body>
+
+
+</html>

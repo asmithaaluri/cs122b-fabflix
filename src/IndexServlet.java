@@ -46,7 +46,6 @@ public class IndexServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String movie_id = request.getParameter("movie_id");
-        System.out.println(movie_id);
         HttpSession session = request.getSession();
 
         // get the previous items in a ArrayList

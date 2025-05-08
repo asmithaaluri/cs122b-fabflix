@@ -4,7 +4,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -15,9 +14,8 @@ import java.sql.*;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-@WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
-public class LoginServlet extends HttpServlet {
-    // Create a dataSource which registered in web.xml
+@WebServlet(name = "DashboardLoginServlet", urlPatterns = "/_dashboard/api/login")
+public class DashboardLoginServlet extends HttpServlet {
     private DataSource dataSource;
 
     public void init(ServletConfig config) {
@@ -41,24 +39,17 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        HttpSession session = request.getSession();
-        // default values for session attributes
-        session.setAttribute("moviesPerPage", "25");
-        session.setAttribute("page", "1");
-        session.setAttribute("sort", "tu-rd");
-
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Declare our query statement.
         String query = "SELECT email, password " +
-                       "FROM customers " +
-                       "WHERE email = ?";
+                        "FROM employees " +
+                        "WHERE email = ?";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement statement = conn.prepareStatement(query)) {
 
-             statement.setString(1, username);
+            statement.setString(1, username);
 
             // Get result set and use try-with-resources so that we don't have to worry about closing it.
             try (ResultSet rs = statement.executeQuery()) {
@@ -68,7 +59,7 @@ public class LoginServlet extends HttpServlet {
                     if (new StrongPasswordEncryptor().checkPassword(password, correctEncryptedPassword)) {
                         // Login success:
                         // set this user into the session
-                        request.getSession().setAttribute("user", new User(username));
+                        request.getSession().setAttribute("employee", new Employee(username));
 
                         responseJsonObject.addProperty("status", "success");
                         responseJsonObject.addProperty("message", "success");

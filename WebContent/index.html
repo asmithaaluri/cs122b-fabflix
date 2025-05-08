@@ -11,6 +11,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
+    <link rel="stylesheet" href="styles/global.css">
 
     <style>
        .bg-container, .bt-container {
@@ -20,13 +21,6 @@
            background-color: #fff;
            border-radius: 20px;
            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.20);
-       }
-
-       h2 {
-           font-family: 'Cinzel', serif;
-           font-size: 30px;
-           text-align: center;
-           color: #314b3a;
        }
 
        #alphabetical_genre_list, #alphanumeric_title_character_list {
@@ -42,14 +36,14 @@
            padding: 5px 5px;
        }
 
-       a:not(.nav-link, .navbar-brand) {
+       a:not(.nav-link, .navbar-brand, .dropdown-item) {
            font-family: 'Fauna One', serif;
            font-size: 16px;
            color: #486e7a; /* Blue color for links */
            text-decoration: none;
        }
 
-       a:hover:not(.nav-link, .navbar-brand) {
+       a:hover:not(.nav-link, .navbar-brand, .dropdown-item) {
            font-family: 'Fauna One', serif;
            font-size: 16px;
            color: #7ec4da;

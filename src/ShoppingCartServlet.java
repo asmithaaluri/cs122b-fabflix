@@ -108,10 +108,6 @@ public class ShoppingCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String movie_id = request.getParameter("movie_id");
         String action = request.getParameter("action");
-        String totalPrice = request.getParameter("totalPrice");
-
-        System.out.println(movie_id);
-        System.out.println(action);
 
         HttpSession session = request.getSession();
 

@@ -1,6 +1,6 @@
 // Populate HTML with price from backend
 function handleResultData(resultData) {
-    $("h3").html("Total Price: $" + resultData[0]["totalPrice"]);
+    $("h1").html("Total Price: $" + resultData[0]["totalPrice"]);
 }
 
 $(document).on("submit", "#payment_form", function (placeOrderEvent) {

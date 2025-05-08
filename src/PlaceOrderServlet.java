@@ -42,7 +42,6 @@ public class PlaceOrderServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("in the doGet of the PlaceOrderServlet");
         HttpSession session = request.getSession();
         JsonArray jsonArray = new JsonArray();
 
@@ -131,25 +130,21 @@ public class PlaceOrderServlet extends HttpServlet {
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
-                    System.out.println("Credit card form input valid.");
                     responseJsonObject.addProperty("status", "success");
 
                     // Get customer ID for identification to add to sales table later.
                     int customerId = getCustomerId(connection, creditCardNumber);
-                    System.out.println("Customer ID: " + customerId);
 
                     // Insert into sales table.
                     HttpSession session = request.getSession();
                     session.setAttribute("customerId", customerId); // Create attribute for customerId.
                     addEachMovieFromCartOfCustomerToSalesTable(session, connection, customerId);
-                    System.out.println("Inserted into sales database");
 
                     // Clear the cart.
                     session.removeAttribute("previousCartItems");
                     session.removeAttribute("totalPrice");
 
                 } else {
-                    System.out.println("Credit card form input invalid.");
                     responseJsonObject.addProperty("status", "error");
                 }
             }

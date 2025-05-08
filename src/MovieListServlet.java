@@ -252,7 +252,6 @@ public class MovieListServlet extends HttpServlet {
                 statement.setInt(index, Integer.parseInt(movies) + 1);
                 index++;
                 statement.setInt(index, (Integer.parseInt(page) - 1) * Integer.parseInt(movies));
-                System.out.println(statement.toString());
                 ResultSet rs = statement.executeQuery();
                 JsonObject responseObject = new JsonObject();
                 JsonArray jsonArray = new JsonArray();
@@ -260,7 +259,6 @@ public class MovieListServlet extends HttpServlet {
                 int count = 0;
                 while (count < Integer.parseInt(movies) && rs.next()) {
                     count++;
-                    System.out.println(count);
                     String movie_id = rs.getString("id");
                     String title = rs.getString("title");
                     int year = rs.getInt("year");

@@ -1,11 +1,13 @@
-.payment-body {
+@import 'global.css';
+
+.form-body {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
 }
 
-.payment-container {
+.form-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,21 +20,14 @@
     width: 80%;
 }
 
-h3 {
-    font-family: 'Cinzel', serif;
-    font-size: 40px;
-    text-align: center;
-    color: #314b3a;
-}
-
-#payment_form label {
+.form label {
     font-family: 'Cinzel', serif;
     font-size: 16px;
     text-align: center;
     color: #314b3a;
 }
 
-#payment_form input[type=text], #expiration_date {
+.form input[type=text], #expiration_date {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -43,13 +38,13 @@ h3 {
     text-align: center;
 }
 
-#payment_form input[type=text]:focus, #expiration_date:focus {
+.form input[type=text]:focus, #expiration_date:focus {
     border-color: #314b3a;
     border-width: medium;
     outline: none;
 }
 
-#payment_form input[type=submit] {
+.form input[type=submit] {
     font-family: 'Fauna One', serif;
     width: 80%;
     padding: 12px 20px;
@@ -62,23 +57,13 @@ h3 {
     color: white;
 }
 
-#payment_form input[type=submit]:hover {
-    background-color: #486e7a;
-    color: white;
-}
-
-#payment_form input[type=submit]:active {
-    background-color: #314b3a;
-    color: white;
-}
-
-#payment_form ::placeholder {
+.form ::placeholder {
     font-family: 'Fauna One', serif;
     font-size: 16px;
     color: #636363;
 }
 
-#login_error_message {
+#form_error_message, #form_results {
     font-family: 'Fauna One', serif;
     font-size: 16px;
     color: #9e6f6f;

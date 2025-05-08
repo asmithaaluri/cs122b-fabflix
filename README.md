@@ -4,7 +4,7 @@
 ## Table of Contents
 1. [Project 1](#Project-1)
 2. [Project 2](#Project-2)
-3. Project 3
+3. [Project 3](#Project-3)
 4. Project 4
 5. Project 5
 
@@ -37,3 +37,35 @@
 |---|------------|
 |Asmitha|<ul><li>Task 1</li><li>Task 2: searching, browsing by genre and first character</li><li>Task 4</li></ul>|
 |Rebecca|<ul><li>Task 2: browsing by '*'</li><li>Task 3</li><li>Logout</li></ul>|
+
+## Project 3
+### Project 3 Demo Video (to be linked)
+
+### Filenames with Prepared Statements
+- DashboardLoginServlet.java
+- LoginServlet.java
+- MetadataServlet.java
+- MovieListServlet.java
+- MovieSearchServlet.java
+   - SearchUtility.java (helper function with PreparedStatement parameter) 
+- PlaceOrderServlet.java
+- ShoppingCartServlet.java
+- SingleMovieServlet.java
+- SingleStarServlet.java
+- DatabaseModificationsFromXML.java
+
+### Parsing Procedures
+
+
+### Parsing Time Optimization Strategies
+1. Parsing order
+   - We chose to parse the XML files in the following order: actors, then casts, and lastly movies.
+   - Parsing smaller files first allowed us to keep a smaller set of potentially valid information to compare with newly parsed info
+   - By parsing actors first, which was smaller than the casts file, we started off with a smaller number of potentially valid stars than parsing casts before actors
+      - Our approach: Based on the number of `<stagename>` tags, `actors.xml` indicated that the possible # of valid actors was capped at around 6.8k. When we parsed casts, we checked if each actor listed in `casts.xml` was in the hashmap of valid actors from `actors.xml` to build a hashmap of valid actors appearing in both `actors.xml` and `casts.xml`
+      - Our approach is more efficient than parsing `casts.xml` before `actors.xml` because if we had parsed `casts.xml` first, when parsing `actors.xml`, we woould have to check if each actor is listed in the hashmap of valid actors from `casts.xml`, which could have been over 10k.
+   - Similar to how we parsed `actors` before `casts`, parsing `movies` after `actors` also allowed us to optimize parsing time
+      - `movies.xml` was the largest file and had over 10k films
+          - By building a set of valid movies based on the valid actors found in `actors` and `casts`, we were able to filter out the films parsed from `movies.xml`. This was more efficient than if we were to parse `movies.xml` first, which would result in a very large amount of data we would then need to compare with `actors.xml` and `casts.xml` to identify inconsistencies 
+2. Used sets and hashmaps to prevent duplicates when storing preliminary results after parsing a file and identify inconsistencies (ie movies that showed up in one file but not another)
+3. Overwrote movies with no end tags.

@@ -13,3 +13,59 @@ input[type=submit]:active {
     background-color: #314b3a;
     color: white;
 }
+
+/* Headers */
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 40px;
+    text-align: center;
+    color: #314b3a;
+    margin-top: 20px;
+}
+
+h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    text-align: center;
+    color: #314b3a;
+}
+
+h3 {
+    text-align: center;
+}
+
+/* Tables */
+.table-container {
+    max-width: 90%;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.20);
+}
+
+th {
+    font-family: 'Fauna One', serif;
+    font-size: 20px;
+    color: #fff;
+    background-color: #4b6754;
+}
+
+td {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: black;
+}
+
+td a {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: #486e7a; /* Blue color for links */
+    text-decoration: none;
+}
+
+td a:hover {
+    font-family: 'Fauna One', serif;
+    font-size: 16px;
+    color: #7ec4da;
+    text-decoration: underline;
+}

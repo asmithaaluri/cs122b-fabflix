@@ -70,3 +70,17 @@ CREATE TABLE ratings (
     rating FLOAT NOT NULL,
     numVotes INT NOT NULL
 );
+
+CREATE TABLE employees (
+    email VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(20) NOT NULL,
+    fullname VARCHAR(100)
+);
+
+CREATE TABLE next_movie_id (
+    id INTEGER PRIMARY KEY
+);
+
+CREATE TABLE next_star_id (
+    id INTEGER PRIMARY KEY
+);

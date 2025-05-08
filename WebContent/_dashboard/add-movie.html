@@ -11,45 +11,51 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel|Fauna+One">
-    <link rel="stylesheet" href="styles/forms.css">
+    <link rel="stylesheet" href="../styles/forms.css">
 
-    <title>Payment Page</title>
+    <title>Add Movie</title>
 </head>
 <body>
 <div id="navbar"></div>
-
+<h1>Add Movie</h1>
+<h3 id="form_results"></h3>
 <div class="form-body">
     <div class="form-container">
-        <h1>Total Price: $</h1>
-
-        <form class="form" id="payment_form" method="post" action="#">
-            <label><b>First Name</b></label>
+        <form id="add_movie_form" class="form" method="post" action="#">
+            <label><b>Title</b></label>
             <label>
-                <input name="first_name" placeholder="First Name" type="text">
+                <input name="title" type="text" required>
             </label>
             <br>
-            <label><b>Last Name</b></label>
+            <label><b>Year</b></label>
             <label>
-                <input name="last_name" placeholder="Last Name" type="text">
+                <input name="year" type="number" required>
             </label>
             <br>
-            <label><b>Credit Card #</b></label>
+            <label><b>Director</b></label>
             <label>
-                <input name="credit_card_number" placeholder="Credit Card #" type="text">
+                <input name="director" type="text" required>
             </label>
             <br>
-            <label for="expiration_date"><b>Expiration Date</b></label>
-            <input id="expiration_date" name="expiration_date" type="date">
+            <label><b>Star</b></label>
+            <label>
+                <input name="star_name" type="text" required>
+            </label>
             <br>
-            <input type="submit" value="Place Order">
+            <label><b>Birth Year</b></label>
+            <label>
+                <input name="birth_year" type="number">
+            </label>
+            <br>
+            <label><b>Genre</b></label>
+            <label>
+                <input name="genre" type="text" required>
+            </label>
+            <br>
+            <input type="submit" value="Add Movie">
         </form>
-
-        <div id="form_error_message"></div>
     </div>
 </div>
-
-
-
 
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -61,8 +67,7 @@
         $("#navbar").load("nav.html");
     });
 </script>
-<!-- The path is relative to single-movie.html, since these two files are in the same directory -->
-<script src="payment.js"></script>
+<script src="add-movie.js"></script>
 </body>
 
 

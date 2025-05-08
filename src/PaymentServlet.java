@@ -63,9 +63,6 @@ public class PaymentServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String totalPrice = request.getParameter("totalPrice");
-
-        System.out.println(totalPrice);
-
         HttpSession session = request.getSession();
         session.setAttribute("totalPrice", totalPrice);
 
