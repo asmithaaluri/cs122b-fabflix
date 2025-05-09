@@ -1,22 +1,15 @@
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DatabaseModificationsFromXML {
     private Connection connection;
+    private final int NUMBER_OF_THREADS = 3;
+    private final int BATCH_SIZE = 100;
+    private static final String insertMovieQuery =
+            "INSERT INTO movies (id, title, year, director) VALUES (?, ?, ?, ?)";
 
     public DatabaseModificationsFromXML() {
         try {
@@ -35,56 +28,65 @@ public class DatabaseModificationsFromXML {
         }
     }
 
-    public int insertMoviesInDatabase(ArrayList<Movie> movies) throws SQLException {
+    static class QueryWorker implements Runnable {
+        Connection connection;
+        ArrayList<Movie> movieBatch;
+        AtomicInteger totalMovieInsertions;
 
-        String query = "INSERT INTO movies (id, title, year, director) VALUES (?, ?, ?, ?)";
-        int totalMovieInsertions = 0;
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-
-            connection.setAutoCommit(false);
-
-            int batchSize = 100; // Every 100 records will be a batch.
-            int numberOfQueriesInBatch = 0;
-
-            for (Movie movie : movies) {
-                statement.setString(1, movie.getId());
-                statement.setString(2, movie.getTitle());
-                statement.setInt(3, Integer.parseInt(movie.getYear()));
-                statement.setString(4, movie.getDirector());
-
-                statement.addBatch();
-                numberOfQueriesInBatch++;
-
-                if (numberOfQueriesInBatch == batchSize) {
-                    int[] results = statement.executeBatch();
-                    totalMovieInsertions += getNumberOfRowsAffectedInDatabase(results);
-                    numberOfQueriesInBatch = 0;
-                }
-            }
-
-            if (numberOfQueriesInBatch > 0) {
-                int[] results = statement.executeBatch();
-                totalMovieInsertions += getNumberOfRowsAffectedInDatabase(results);
-            }
-
-            connection.commit();
-
-        } catch (Exception e) {
-            System.out.println("Error in insertMoviesInDatabase");
-            e.printStackTrace();
-
-            try {
-                connection.rollback();
-            } catch (SQLException sql_error) {
-                System.out.println("Error: cannot rollback transaction of insertMoviesInDatabase.");
-                sql_error.printStackTrace();
-            }
-
+        QueryWorker(ArrayList<Movie> movies, Connection conn, AtomicInteger counter) {
+            movieBatch = movies;
+            connection = conn;
+            totalMovieInsertions = counter;
         }
 
+        @Override
+        public void run() {
+            try (PreparedStatement statement = connection.prepareStatement(insertMovieQuery)) {
+
+                connection.setAutoCommit(false);
+
+                for (Movie movie : movieBatch) {
+                    statement.setString(1, movie.getId());
+                    statement.setString(2, movie.getTitle());
+                    statement.setInt(3, Integer.parseInt(movie.getYear()));
+                    statement.setString(4, movie.getDirector());
+
+                    statement.addBatch();
+                }
+
+                int[] results = statement.executeBatch();
+                totalMovieInsertions.addAndGet(getNumberOfRowsAffectedInDatabase(results));
+
+                connection.commit();
+
+            } catch (Exception e) {
+                System.out.println("Error in insertMoviesInDatabase");
+                e.printStackTrace();
+
+                try {
+                    connection.rollback();
+                } catch (SQLException sql_error) {
+                    System.out.println("Error: cannot rollback transaction of insertMoviesInDatabase.");
+                    sql_error.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    public int insertMoviesInDatabase(ArrayList<Movie> movies) throws SQLException {
+        AtomicInteger totalMovieInsertions = new AtomicInteger(0);
+
+        ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+        for (int i = 0; i < movies.size(); i+= BATCH_SIZE) {
+            List<Movie> batch = movies.subList(i, Math.min(movies.size(), i + BATCH_SIZE));
+            executor.execute(new QueryWorker(new ArrayList<>(batch), this.connection, totalMovieInsertions));
+        }
+        executor.shutdown();
+        while (!executor.isTerminated()) {}
         System.out.println("Inserted " + totalMovieInsertions + " new movies.");
-        return totalMovieInsertions;
+        return totalMovieInsertions.intValue();
     }
 
     public int deleteMoviesFromDatabase(ArrayList<Movie> movies) throws SQLException {
@@ -337,7 +339,7 @@ public class DatabaseModificationsFromXML {
         }
     }
 
-    private int getNumberOfRowsAffectedInDatabase(int[] results) {
+    private static int getNumberOfRowsAffectedInDatabase(int[] results) {
         int count = 0;
         for (int result : results) {
             if (result >= 0) {
