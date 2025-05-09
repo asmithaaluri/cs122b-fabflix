@@ -19,9 +19,9 @@ public class SearchUtility {
         }
         if (ptitle != null && !ptitle.trim().isEmpty()) {
             if (previousWhereClause == 1) {
-                query.append(" AND m.title LIKE ?");
+                query.append(" AND MATCH(m.title) AGAINST (? IN BOOLEAN MODE)");
             } else {
-                query.append("WHERE m.title LIKE ?");
+                query.append("WHERE MATCH(m.title) AGAINST (? IN BOOLEAN MODE)");
                 previousWhereClause = 1;
             }
         }
@@ -63,7 +63,7 @@ public class SearchUtility {
         }
         if (ptitle != null && !ptitle.trim().isEmpty()) {
             index++;
-            statement.setString(index, "%" + ptitle + "%");
+            statement.setString(index, "+" + ptitle);
         }
         if (pyear != null && !pyear.trim().isEmpty() && validYear) {
             index++;
