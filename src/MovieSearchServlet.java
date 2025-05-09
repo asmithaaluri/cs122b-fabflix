@@ -21,33 +21,33 @@ public class MovieSearchServlet extends HttpServlet {
 
     private static final String allMoviesQuery =
             "WITH starred_movies (starId, movieCount) AS (" +
-                "SELECT s.id, COUNT(sm.movieId) " +
-                "FROM stars s " +
-                "JOIN stars_in_movies sm ON s.id = sm.starId " +
-                "GROUP BY s.id " +
-            ") " +
-            "SELECT DISTINCT m.id, m.title, m.year, m.director, COALESCE(r.rating, 0) AS rating, " +
-            "( " +
-                "SELECT JSON_ARRAYAGG(" +
+                    "SELECT s.id, COUNT(sm.movieId) " +
+                    "FROM stars s " +
+                    "JOIN stars_in_movies sm ON s.id = sm.starId " +
+                    "GROUP BY s.id " +
+                    ") " +
+                    "SELECT DISTINCT m.id, m.title, m.year, m.director, COALESCE(r.rating, 0) AS rating, " +
+                    "( " +
+                    "SELECT JSON_ARRAYAGG(" +
                     "JSON_OBJECT('id', g.id, 'name', g.name)" +
                     ") " +
-                "FROM genres_in_movies gm " +
-                "JOIN genres g ON gm.genreId = g.id " +
-                "WHERE gm.movieId = m.id " +
-                "LIMIT 3 " +
-            ") AS genres, " +
-            "( " +
-                "SELECT JSON_ARRAYAGG(" +
+                    "FROM genres_in_movies gm " +
+                    "JOIN genres g ON gm.genreId = g.id " +
+                    "WHERE gm.movieId = m.id " +
+                    "LIMIT 3 " +
+                    ") AS genres, " +
+                    "( " +
+                    "SELECT JSON_ARRAYAGG(" +
                     "JSON_OBJECT('id', s.id, 'name', s.name, 'count', star.movieCount)" +
                     ") " +
-                "FROM stars_in_movies sm " +
-                "JOIN stars s ON sm.starId = s.id " +
-                "JOIN starred_movies star ON star.starId = s.id " +
-                "WHERE m.id = sm.movieId " +
-                "LIMIT 3 " +
-            ") AS stars " +
-            "FROM movies m " +
-            "LEFT JOIN ratings r ON m.id = r.movieId ";
+                    "FROM stars_in_movies sm " +
+                    "JOIN stars s ON sm.starId = s.id " +
+                    "JOIN starred_movies star ON star.starId = s.id " +
+                    "WHERE m.id = sm.movieId " +
+                    "LIMIT 3 " +
+                    ") AS stars " +
+                    "FROM movies m " +
+                    "LEFT JOIN ratings r ON m.id = r.movieId ";
 
     private static final String PAGE_ONE = "1";
     private static final int ZERO_ROW_OFFSET = 0;
@@ -90,6 +90,7 @@ public class MovieSearchServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        System.out.println("MovieSearchServlet doGet");
         response.setContentType("application/json"); // Response mime type
 
         // Output stream to STDOUT
@@ -126,7 +127,6 @@ public class MovieSearchServlet extends HttpServlet {
             SortingUtility.addSortingToQuery(sort, query);
 
             try (PreparedStatement statement = conn.prepareStatement(query.toString())) {
-
                 int index = 1;
                 index += SearchUtility.addSearchParamsToQuery(statement, pstar, ptitle, pyear, pdirector, validYear);
                 statement.setInt(index, Integer.parseInt(moviesPerPage) + 1);
@@ -154,11 +154,21 @@ public class MovieSearchServlet extends HttpServlet {
                     jsonObject.addProperty("rating", rating);
 
                     String genre_map = rs.getString("genres");
-                    JsonArray genreArray = JsonParser.parseString(genre_map).getAsJsonArray();
+                    JsonArray genreArray;
+                    if (genre_map != null) {
+                        genreArray = JsonParser.parseString(genre_map).getAsJsonArray();
+                    } else {
+                        genreArray = new JsonArray();
+                    }
                     jsonObject.add("genres", genreArray);
 
                     String star_map = rs.getString("stars");
-                    JsonArray starArray = JsonParser.parseString(star_map).getAsJsonArray();
+                    JsonArray starArray;
+                    if (star_map != null) {
+                        starArray = JsonParser.parseString(star_map).getAsJsonArray();
+                    } else {
+                        starArray = new JsonArray();
+                    }
                     jsonObject.add("stars", starArray);
 
                     jsonArray.add(jsonObject);

@@ -33,7 +33,7 @@ public class EncryptEmployeePassword {
         // change the customers table password column from VARCHAR(20) to VARCHAR(128)
         String alterQuery = "ALTER TABLE employees MODIFY COLUMN password VARCHAR(128)";
         int alterResult = statement.executeUpdate(alterQuery);
-        System.out.println("altering customers table schema completed, " + alterResult + " rows affected");
+        System.out.println("altering employees table schema completed, " + alterResult + " rows affected");
 
         // get the ID and password for each customer
         String query = "SELECT email, password from employees";
