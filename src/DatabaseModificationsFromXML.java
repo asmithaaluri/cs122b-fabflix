@@ -16,7 +16,6 @@ import java.sql.*;
 import java.util.*;
 
 public class DatabaseModificationsFromXML {
-    private DataSource dataSource;
     private Connection connection;
 
     public DatabaseModificationsFromXML() {
