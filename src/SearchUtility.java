@@ -18,11 +18,22 @@ public class SearchUtility {
             previousWhereClause = 1;
         }
         if (ptitle != null && !ptitle.trim().isEmpty()) {
-            if (previousWhereClause == 1) {
-                query.append(" AND MATCH(m.title) AGAINST (? IN BOOLEAN MODE)");
+            if (ptitle.length() < 2) {
+                if (previousWhereClause == 1) {
+                    query.append(" AND m.title LIKE ?");
+                } else {
+                    query.append("WHERE m.title LIKE ?");
+                    previousWhereClause = 1;
+                }
             } else {
-                query.append("WHERE MATCH(m.title) AGAINST (? IN BOOLEAN MODE)");
-                previousWhereClause = 1;
+                if (previousWhereClause == 1) {
+                    query.append(" AND MATCH(m.title) AGAINST (? IN BOOLEAN MODE)");
+                    query.append(" AND m.title LIKE ?");
+                } else {
+                    query.append("WHERE MATCH(m.title) AGAINST (? IN BOOLEAN MODE)");
+                    query.append(" AND m.title LIKE ?");
+                    previousWhereClause = 1;
+                }
             }
         }
         if (pyear != null && !pyear.trim().isEmpty()) {
@@ -62,8 +73,15 @@ public class SearchUtility {
             statement.setString(index, "%" + pstar + "%");
         }
         if (ptitle != null && !ptitle.trim().isEmpty()) {
-            index++;
-            statement.setString(index, "+" + ptitle);
+            if (ptitle.length() < 2) {
+                index++;
+                statement.setString(index, "%" + ptitle + "%");
+            } else {
+                index++;
+                statement.setString(index, "+" + ptitle + "*");
+                index++;
+                statement.setString(index, "%" + ptitle + "%");
+            }
         }
         if (pyear != null && !pyear.trim().isEmpty() && validYear) {
             index++;
