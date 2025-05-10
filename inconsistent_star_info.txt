@@ -1,0 +1,21 @@
+=============================================
+                                             
+========== INCONSISTENT STAR INFO ==========
+                                             
+=============================================
+========== NO NAME ==========
+Star Details - Star ID: null, Name: , Birth Year: -1, MovieIDs: .
+========== CONFLICTING BIRTH YEAR ==========
+Star Details - Star ID: null, Name: Kenneth Branagh, Birth Year: -1, MovieIDs: .
+Star Details - Star ID: null, Name: Colin Campbell, Birth Year: 1937, MovieIDs: .
+Star Details - Star ID: null, Name: Derek Farr, Birth Year: -1, MovieIDs: .
+Star Details - Star ID: null, Name: Frances Fisher, Birth Year: -1, MovieIDs: .
+Star Details - Star ID: null, Name: Peter Graves, Birth Year: 1911, MovieIDs: .
+Star Details - Star ID: null, Name: William Holden, Birth Year: 1918, MovieIDs: .
+Star Details - Star ID: null, Name: Rex Ingram, Birth Year: 1895, MovieIDs: .
+Star Details - Star ID: null, Name: Charles King, Birth Year: 1899, MovieIDs: .
+Star Details - Star ID: null, Name: Jack Lambert, Birth Year: 1920, MovieIDs: .
+Star Details - Star ID: null, Name: Spanky McFarland, Birth Year: -1, MovieIDs: .
+Star Details - Star ID: null, Name: Mary Morris, Birth Year: 1915, MovieIDs: .
+Star Details - Star ID: null, Name: Raymond Pellegrin, Birth Year: -1, MovieIDs: .
+Star Details - Star ID: null, Name: Ann Todd, Birth Year: 1932, MovieIDs: .
