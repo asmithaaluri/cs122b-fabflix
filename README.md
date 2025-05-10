@@ -54,12 +54,44 @@
 - SingleStarServlet.java
 - DatabaseModificationsFromXML.java
 
-### Parsing Procedures
-1. Parse `actors.xml`
-2. Parse `casts.xml`
-3. Parse `mains.xml`
+### Inconsistency Report Summary
+<img width="303" alt="image" src="https://github.com/user-attachments/assets/b39aeb95-904d-4509-9843-6a807c03cb88" />
 
-#### Handling Inconsistencies
+
+### Parsing Procedures
+- "Skipped" means that we did not consider it valid data and did not insert in our database
+1. Parse `actors.xml` -> [Inconsistency Report](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/inconsistent_star_info.txt)
+
+|Inconsistency|How We Handled|
+|---------------|-----------------|
+| Empty star names | Skipped and counted as inconsistency |
+| Duplicate stars with different birth years | Duplicates are skipped and counted as inconsistency |
+| Duplicate stars with same or null birth year | Duplicates are skipped |
+
+- Produces hash map of actors (deemed "valid" so far)
+
+2. Parse `casts.xml` -> [Inconsistency Report](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/inconsistent_cast_info.txt)
+
+| Inconsistency | How We Handled |
+|---------------|-----------------|
+| Actors appearing in the hash map of actors, but not in `casts.xml` | Counted as inconsistency |
+| Actors appearing in `casts.xml` but does not exist in the hash map of actors | Skipped and counted as inconsistency |
+
+- Produces hash map of actors appearing in both `actors.xml` and `casts.xml` (subset of actors from parsing `actors.xml`)
+- Produces set of movies which have associated actor information
+
+4. Parse `mains.xml` -> [Inconsistency Report](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/inconsistent_movie_info.txt)
+
+| Inconsistency | How We Handled |
+|---------------|-----------------|
+| Duplicate movie IDs | Skipped and counted as inconsistency |
+| Empty movie title | Skipped and counted as inconsistency |
+| Invalid movie year | Skipped and counted as inconsistency |
+| Unknown movie director | Skipped and counted as inconsistency |
+| Genres with invalid formatting | Still add the movie, but set the genre to NULL|
+
+#### Additional Inconsistencies
+- Parsed data without ending tags are overwritten
 
 ### Parsing Time Optimization Strategies
 1. Parsing order
