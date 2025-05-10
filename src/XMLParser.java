@@ -37,6 +37,7 @@ public class XMLParser {
             }
         }
 
+        System.exit(0); // Get rid of thread error in AWS.
 
     }
 
