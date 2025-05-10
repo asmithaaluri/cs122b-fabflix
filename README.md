@@ -39,7 +39,7 @@
 |Rebecca|<ul><li>Task 2: browsing by '*'</li><li>Task 3</li><li>Logout</li></ul>|
 
 ## Project 3
-### Project 3 Demo Video (https://drive.google.com/file/d/13nZTAuTUUNf6nHwHPdONy6IuQvAe6uqH/view?usp=sharing)
+### [Project 3 Demo Video](https://drive.google.com/file/d/13nZTAuTUUNf6nHwHPdONy6IuQvAe6uqH/view?usp=sharing)
 
 ### Filenames with Prepared Statements
 - DashboardLoginServlet.java
@@ -55,7 +55,11 @@
 - DatabaseModificationsFromXML.java
 
 ### Parsing Procedures
+1. Parse `actors.xml`
+2. Parse `casts.xml`
+3. Parse `mains.xml`
 
+#### Handling Inconsistencies
 
 ### Parsing Time Optimization Strategies
 1. Parsing order
@@ -68,4 +72,11 @@
       - `movies.xml` was the largest file and had over 10k films
           - By building a set of valid movies based on the valid actors found in `actors` and `casts`, we were able to filter out the films parsed from `movies.xml`. This was more efficient than if we were to parse `movies.xml` first, which would result in a very large amount of data we would then need to compare with `actors.xml` and `casts.xml` to identify inconsistencies 
 2. Used sets and hashmaps to prevent duplicates when storing preliminary results after parsing a file and identify inconsistencies (ie movies that showed up in one file but not another)
-3. Overwrote movies with no end tags.
+3. MySQL batch processing when inserting XML data into `moviedb`
+4. Multithreaded insertion of movies parsed from the XML files
+
+### Project 3 Contributions
+|Name|Contributions|
+|---|------------|
+|Asmitha|<ul><li>Task 2</li><li>Task 3</li><li>Task 6</li></ul>|
+|Rebecca|<ul><li>Task 1</li><li>Task 3</li><li>Task 4</li><li>Task 5</li><li>Full-text indexes, multithreading for task 6</li></ul>|
