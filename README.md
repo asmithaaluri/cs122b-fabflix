@@ -39,7 +39,7 @@
 |Rebecca|<ul><li>Task 2: browsing by '*'</li><li>Task 3</li><li>Logout</li></ul>|
 
 ## Project 3
-### Project 3 Demo Video (to be linked)
+### Project 3 Demo Video (https://drive.google.com/file/d/13nZTAuTUUNf6nHwHPdONy6IuQvAe6uqH/view?usp=sharing)
 
 ### Filenames with Prepared Statements
 - DashboardLoginServlet.java
