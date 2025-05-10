@@ -90,7 +90,6 @@ public class MovieSearchServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        System.out.println("MovieSearchServlet doGet");
         response.setContentType("application/json"); // Response mime type
 
         // Output stream to STDOUT
