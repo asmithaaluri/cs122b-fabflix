@@ -62,11 +62,15 @@
 - "Skipped" means that we did not consider it valid data and did not insert in our database
 1. Parse `actors.xml` -> [Inconsistency Report](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/inconsistent_star_info.txt)
 
+- We uniquely identify actors by their name (two actors with the same name and different birth year are considered inconsistencies rather than two different actors)
+
 |Inconsistency|How We Handled|
 |---------------|-----------------|
 | Empty star names | Skipped and counted as inconsistency |
 | Duplicate stars with different birth years | Duplicates are skipped and counted as inconsistency |
-| Duplicate stars with same or null birth year | Duplicates are skipped |
+| Duplicate stars with same birth year | Duplicates are skipped |
+| Duplicate stars with null birth year, appearing before non-null birth year | Birth year is overwritten with non-null |
+| Duplicate stars with null birth year, appearing after non-null birth year | Skipped and counted as inconsistency |
 
 - Produces hash map of actors (deemed "valid" so far)
 
