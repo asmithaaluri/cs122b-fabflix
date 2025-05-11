@@ -106,10 +106,13 @@
       - Our approach is more efficient than parsing `casts.xml` before `actors.xml` because if we had parsed `casts.xml` first, when parsing `actors.xml`, we woould have to check if each actor is listed in the hashmap of valid actors from `casts.xml`, which could have been over 10k.
    - Similar to how we parsed `actors` before `casts`, parsing `movies` after `actors` also allowed us to optimize parsing time
       - `movies.xml` was the largest file and had over 10k films
-          - By building a set of valid movies based on the valid actors found in `actors` and `casts`, we were able to filter out the films parsed from `movies.xml`. This was more efficient than if we were to parse `movies.xml` first, which would result in a very large amount of data we would then need to compare with `actors.xml` and `casts.xml` to identify inconsistencies 
+          - By building a set of valid movies based on the valid actors found in `actors` and `casts`, we were able to filter out the films parsed from `movies.xml`. This was more efficient than if we were to parse `movies.xml` first, which would result in a very large amount of data we would then need to compare with `actors.xml` and `casts.xml` to identify inconsistencies
+- Time reduction: 5.3 minutes -> 1.53 minutes
+   - This time reduction included treating actors in `casts.xml` as inconsistencies if they didn't appear in `actors.xml`  
 2. Used sets and hashmaps to prevent duplicates when storing preliminary results after parsing a file and identify inconsistencies (ie movies that showed up in one file but not another)
 3. MySQL batch processing when inserting XML data into `moviedb`
 4. Multithreaded insertion of movies parsed from the XML files
+- Time reduction: 1.53 minutes -> 1.49 minutes
 
 ### Project 3 Contributions
 |Name|Contributions|
