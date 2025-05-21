@@ -4,7 +4,6 @@
  */
 function handleResultData(resultData) {
     // Populate the star table
-    console.log("populating shopping cart with all previousCartItems")
     // Find the empty table body by id "star_table_body"
     let starTableBodyElement = jQuery("#star_table_body");
     starTableBodyElement.empty();
@@ -45,7 +44,6 @@ function handleResultData(resultData) {
 }
 
 $(document).on("click", ".update-movie-quantity-button", function() {
-    console.log("updating quantity of movie in cart");
     const movie_id = $(this).data("id");
     const action = $(this).data("action");
 
@@ -66,8 +64,6 @@ $(document).on("click", ".update-movie-quantity-button", function() {
 });
 
 $(document).on("click", "#proceed-to-payment-button", function() {
-    console.log("proceeding to payment page");
-
     let totalPrice = $("#total_price").text();
 
     $.ajax({

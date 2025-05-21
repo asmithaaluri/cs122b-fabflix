@@ -106,10 +106,10 @@ public class MovieSearchServlet extends HttpServlet {
             pageAttribute.set(session, PAGE_ONE);
 
             // 'p' indicates variable storing parameter
-            String ptitle = request.getParameter("title");
-            String pyear = request.getParameter("year");
-            String pdirector = request.getParameter("director");
-            String pstar = request.getParameter("star");
+            String ptitle = request.getParameter("title").trim();
+            String pyear = request.getParameter("year").trim();
+            String pdirector = request.getParameter("director").trim();
+            String pstar = request.getParameter("star").trim();
 
             // save search params
             titleAttribute.set(session, ptitle);
@@ -132,6 +132,7 @@ public class MovieSearchServlet extends HttpServlet {
                 index++;
                 statement.setInt(index, ZERO_ROW_OFFSET);
 
+                System.out.println(statement);
                 ResultSet rs = statement.executeQuery();
                 JsonObject responseObject = new JsonObject();
                 JsonArray jsonArray = new JsonArray();

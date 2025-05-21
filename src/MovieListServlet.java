@@ -252,48 +252,47 @@ public class MovieListServlet extends HttpServlet {
                 statement.setInt(index, Integer.parseInt(movies) + 1);
                 index++;
                 statement.setInt(index, (Integer.parseInt(page) - 1) * Integer.parseInt(movies));
-                ResultSet rs = statement.executeQuery();
-                JsonObject responseObject = new JsonObject();
                 JsonArray jsonArray = new JsonArray();
+                JsonObject responseObject = new JsonObject();
+                try (ResultSet rs = statement.executeQuery()) {
+                    int count = 0;
+                    while (count < Integer.parseInt(movies) && rs.next()) {
+                        count++;
+                        String movie_id = rs.getString("id");
+                        String title = rs.getString("title");
+                        int year = rs.getInt("year");
+                        String director = rs.getString("director");
+                        float rating = rs.getFloat("rating");
 
-                int count = 0;
-                while (count < Integer.parseInt(movies) && rs.next()) {
-                    count++;
-                    String movie_id = rs.getString("id");
-                    String title = rs.getString("title");
-                    int year = rs.getInt("year");
-                    String director = rs.getString("director");
-                    float rating = rs.getFloat("rating");
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("movie_id", movie_id);
+                        jsonObject.addProperty("title", title);
+                        jsonObject.addProperty("year", year);
+                        jsonObject.addProperty("director", director);
+                        jsonObject.addProperty("rating", rating);
 
-                    JsonObject jsonObject = new JsonObject();
-                    jsonObject.addProperty("movie_id", movie_id);
-                    jsonObject.addProperty("title", title);
-                    jsonObject.addProperty("year", year);
-                    jsonObject.addProperty("director", director);
-                    jsonObject.addProperty("rating", rating);
+                        String genre_map = rs.getString("genres");
+                        JsonArray genreArray;
+                        if (genre_map != null) {
+                            genreArray = JsonParser.parseString(genre_map).getAsJsonArray();
+                        } else {
+                            genreArray = new JsonArray();
+                        }
+                        jsonObject.add("genres", genreArray);
 
-                    String genre_map = rs.getString("genres");
-                    JsonArray genreArray;
-                    if (genre_map != null) {
-                        genreArray = JsonParser.parseString(genre_map).getAsJsonArray();
-                    } else {
-                        genreArray = new JsonArray();
+                        String star_map = rs.getString("stars");
+                        JsonArray starArray;
+                        if (star_map != null) {
+                            starArray = JsonParser.parseString(star_map).getAsJsonArray();
+                        } else {
+                            starArray = new JsonArray();
+                        }
+                        jsonObject.add("stars", starArray);
+
+                        jsonArray.add(jsonObject);
                     }
-                    jsonObject.add("genres", genreArray);
-
-                    String star_map = rs.getString("stars");
-                    JsonArray starArray;
-                    if (star_map != null) {
-                        starArray = JsonParser.parseString(star_map).getAsJsonArray();
-                    } else {
-                        starArray = new JsonArray();
-                    }
-                    jsonObject.add("stars", starArray);
-
-                    jsonArray.add(jsonObject);
+                    responseObject.addProperty("hasNextPage", rs.next());
                 }
-                responseObject.addProperty("hasNextPage", rs.next());
-                rs.close();
                 responseObject.addProperty("movieData", jsonArray.toString());
 
                 // Log to localhost log

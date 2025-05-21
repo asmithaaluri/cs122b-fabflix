@@ -3,7 +3,6 @@
  * @param resultData jsonObject
  */
 function handleStarResult(resultData) {
-    console.log("handleMoviesResult: populating movies table from resultData");
 
     const MAX_GENRES = 3;
     const MAX_STARS = 3;
@@ -78,7 +77,6 @@ function handleStarResult(resultData) {
  * @param resultArray jsonObject, needs to be parsed to html
  */
 function handleCartArray(resultArray) {
-    console.log(resultArray);
     let item_list = $("#item_list");
     // change it to html list
     let res = "<ul>";
@@ -94,7 +92,6 @@ function handleCartArray(resultArray) {
 }
 
 $(document).on("submit", ".cart", function (cartEvent) {
-    console.log("submit cart form");
     cartEvent.preventDefault();
     const cartForm = $(this);
 

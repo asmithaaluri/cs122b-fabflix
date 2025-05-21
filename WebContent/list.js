@@ -105,7 +105,6 @@ function populateTables(resultData) {
 }
 
 $(document).on("submit", ".cart", function (cartEvent) {
-    console.log("submit cart form");
     cartEvent.preventDefault();
     const cartForm = $(this);
 

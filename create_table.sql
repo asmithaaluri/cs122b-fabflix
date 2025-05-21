@@ -2,9 +2,6 @@ DROP DATABASE IF EXISTS moviedb;
 CREATE DATABASE moviedb;
 USE moviedb;
 
-CREATE TABLE custom_stopwords(value VARCHAR(30)) ENGINE = INNODB;
-SET GLOBAL innodb_ft_server_stopword_table = 'moviedb/custom_stopwords';
-
 CREATE TABLE movies (
     id VARCHAR(10) PRIMARY KEY,
     title VARCHAR(100) NOT NULL,

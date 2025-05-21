@@ -52,23 +52,24 @@ public class MetadataServlet extends HttpServlet {
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("table_name", tableName);
 
-                    PreparedStatement preparedStatement = conn.prepareStatement(tableColumnsQuery);
-                    preparedStatement.setString(1, tableName);
-                    ResultSet tableColumns = preparedStatement.executeQuery();
+                    try (PreparedStatement preparedStatement = conn.prepareStatement(tableColumnsQuery)) {
+                        preparedStatement.setString(1, tableName);
+                        try (ResultSet tableColumns = preparedStatement.executeQuery()) {
 
-                    JsonArray columnArray = new JsonArray();
+                            JsonArray columnArray = new JsonArray();
 
-                    while (tableColumns.next()) {
-                        JsonObject columnObject = new JsonObject();
-                        String columnName = tableColumns.getString("column_name");
-                        String columnType = tableColumns.getString("data_type");
-                        columnObject.addProperty("column_name", columnName);
-                        columnObject.addProperty("column_type", columnType);
-                        columnArray.add(columnObject);
+                            while (tableColumns.next()) {
+                                JsonObject columnObject = new JsonObject();
+                                String columnName = tableColumns.getString("column_name");
+                                String columnType = tableColumns.getString("data_type");
+                                columnObject.addProperty("column_name", columnName);
+                                columnObject.addProperty("column_type", columnType);
+                                columnArray.add(columnObject);
+                            }
+                        jsonObject.add("columns", columnArray);
+                        jsonArray.add(jsonObject);
+                        }
                     }
-
-                    jsonObject.add("columns", columnArray);
-                    jsonArray.add(jsonObject);
                 }
                 out.write(jsonArray.toString());
                 response.setStatus(200);

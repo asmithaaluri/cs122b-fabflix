@@ -6,7 +6,6 @@
 function handleResult(resultData) {
 
     // ---------- BROWSING BY MOVIE GENRES ----------
-    console.log("handleResult: populating alphabetical list of genres from resultData");
 
     // From the html, grab the id where we will place this list of genres.
     let genreBodyElement = jQuery("#alphabetical_genre_list");
@@ -24,7 +23,6 @@ function handleResult(resultData) {
     genreBodyElement.append(rowHTML);
 
     // ---------- BROWSING BY MOVIE TITLES ----------
-    console.log("handleResult: populating alphanumerical list of characters including *");
     let titleBodyElement = jQuery("#alphanumeric_title_character_list");
 
     let alphanumeric_characters_without_star = [];

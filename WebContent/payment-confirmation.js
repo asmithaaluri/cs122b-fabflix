@@ -4,7 +4,6 @@
  */
 function handleResultData(resultData) {
     // Populate the star table
-    console.log("populating shopping cart with all previousCartItems")
     // Find the empty table body by id "star_table_body"
     let movieTableBodyElement = jQuery("#movie_table_body");
     movieTableBodyElement.empty();

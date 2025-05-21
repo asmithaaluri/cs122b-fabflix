@@ -99,11 +99,21 @@ public class SingleMovieServlet extends HttpServlet {
                 jsonObject.addProperty("rating", rating);
 
                 String genre_map = rs.getString("genres");
-                JsonArray genreArray = JsonParser.parseString(genre_map).getAsJsonArray();
+                JsonArray genreArray;
+                if (genre_map != null) {
+                    genreArray = JsonParser.parseString(genre_map).getAsJsonArray();
+                } else {
+                    genreArray = new JsonArray();
+                }
                 jsonObject.add("genres", genreArray);
 
                 String star_map = rs.getString("stars");
-                JsonArray starArray = JsonParser.parseString(star_map).getAsJsonArray();
+                JsonArray starArray;
+                if (star_map != null) {
+                    starArray = JsonParser.parseString(star_map).getAsJsonArray();
+                } else {
+                    starArray = new JsonArray();
+                }
                 jsonObject.add("stars", starArray);
 
                 jsonArray.add(jsonObject);

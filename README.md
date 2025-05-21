@@ -5,7 +5,7 @@
 1. [Project 1](#Project-1)
 2. [Project 2](#Project-2)
 3. [Project 3](#Project-3)
-4. Project 4
+4. [Project 4](#Project-4)
 5. Project 5
 
 ## Project 1
@@ -24,14 +24,14 @@
 ### LIKE/ILIKE Predicate
 - We didn't use the `ILIKE` predicate
 - For searching, we used the `LIKE` predicate for each of the following string parameters (listed in next line) when they were non-null and non-empty
-   - String parameters: movie title, movie director, star name
-   - We implemented substring matching by enclosing the string parameter given (inputted by the user) with '%'
-      - For example, the keyword "term", when specified in the title would result in the predicate `LIKE '%term%'` 
-   - Substring matching portion of queries are located in [SearchUtility.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/src/SearchUtility.java)
+    - String parameters: movie title, movie director, star name
+    - We implemented substring matching by enclosing the string parameter given (inputted by the user) with '%'
+        - For example, the keyword "term", when specified in the title would result in the predicate `LIKE '%term%'`
+    - Substring matching portion of queries are located in [SearchUtility.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/src/SearchUtility.java)
 - For browsing, we used the `LIKE` predicate for the prefix
-   - To browse by a character prefix, in [MovieList.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/09da8cb8b2425b74198b817f802ecddd13cdfb61/src/MovieListServlet.java#L107), we used `LIKE ?`, where ? would be replaced with the character parameter (a single letter or digit)
-      - Full clause used: `LEFT(m.title, 1) LIKE ?` to check only the first character of the title
-     
+    - To browse by a character prefix, in [MovieList.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/09da8cb8b2425b74198b817f802ecddd13cdfb61/src/MovieListServlet.java#L107), we used `LIKE ?`, where ? would be replaced with the character parameter (a single letter or digit)
+        - Full clause used: `LEFT(m.title, 1) LIKE ?` to check only the first character of the title
+
 ### Project 2 Contributions
 |Name|Contributions|
 |---|------------|
@@ -47,7 +47,7 @@
 - MetadataServlet.java
 - MovieListServlet.java
 - MovieSearchServlet.java
-   - SearchUtility.java (helper function with PreparedStatement parameter) 
+    - SearchUtility.java (helper function with PreparedStatement parameter)
 - PlaceOrderServlet.java
 - ShoppingCartServlet.java
 - SingleMovieServlet.java
@@ -84,7 +84,7 @@
 - Produces hash map of actors appearing in both `actors.xml` and `casts.xml` (subset of actors from parsing `actors.xml`)
 - Produces set of movies which have associated actor information
 
-4. Parse `mains.xml` -> [Inconsistency Report](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/inconsistent_movie_info.txt)
+3. Parse `mains.xml` -> [Inconsistency Report](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/inconsistent_movie_info.txt)
 
 | Inconsistency | How We Handled |
 |---------------|-----------------|
@@ -99,16 +99,16 @@
 
 ### Parsing Time Optimization Strategies
 1. Parsing order
-   - We chose to parse the XML files in the following order: actors, then casts, and lastly movies.
-   - Parsing smaller files first allowed us to keep a smaller set of potentially valid information to compare with newly parsed info
-   - By parsing actors first, which was smaller than the casts file, we started off with a smaller number of potentially valid stars than parsing casts before actors
-      - Our approach: Based on the number of `<stagename>` tags, `actors.xml` indicated that the possible # of valid actors was capped at around 6.8k. When we parsed casts, we checked if each actor listed in `casts.xml` was in the hashmap of valid actors from `actors.xml` to build a hashmap of valid actors appearing in both `actors.xml` and `casts.xml`
-      - Our approach is more efficient than parsing `casts.xml` before `actors.xml` because if we had parsed `casts.xml` first, when parsing `actors.xml`, we woould have to check if each actor is listed in the hashmap of valid actors from `casts.xml`, which could have been over 10k.
-   - Similar to how we parsed `actors` before `casts`, parsing `movies` after `actors` also allowed us to optimize parsing time
-      - `movies.xml` was the largest file and had over 10k films
-          - By building a set of valid movies based on the valid actors found in `actors` and `casts`, we were able to filter out the films parsed from `movies.xml`. This was more efficient than if we were to parse `movies.xml` first, which would result in a very large amount of data we would then need to compare with `actors.xml` and `casts.xml` to identify inconsistencies
+    - We chose to parse the XML files in the following order: actors, then casts, and lastly movies.
+    - Parsing smaller files first allowed us to keep a smaller set of potentially valid information to compare with newly parsed info
+    - By parsing actors first, which was smaller than the casts file, we started off with a smaller number of potentially valid stars than parsing casts before actors
+        - Our approach: Based on the number of `<stagename>` tags, `actors.xml` indicated that the possible # of valid actors was capped at around 6.8k. When we parsed casts, we checked if each actor listed in `casts.xml` was in the hashmap of valid actors from `actors.xml` to build a hashmap of valid actors appearing in both `actors.xml` and `casts.xml`
+        - Our approach is more efficient than parsing `casts.xml` before `actors.xml` because if we had parsed `casts.xml` first, when parsing `actors.xml`, we woould have to check if each actor is listed in the hashmap of valid actors from `casts.xml`, which could have been over 10k.
+    - Similar to how we parsed `actors` before `casts`, parsing `movies` after `actors` also allowed us to optimize parsing time
+        - `movies.xml` was the largest file and had over 10k films
+            - By building a set of valid movies based on the valid actors found in `actors` and `casts`, we were able to filter out the films parsed from `movies.xml`. This was more efficient than if we were to parse `movies.xml` first, which would result in a very large amount of data we would then need to compare with `actors.xml` and `casts.xml` to identify inconsistencies
 - Time reduction: 5.3 minutes -> 1.53 minutes
-   - This time reduction included treating actors in `casts.xml` as inconsistencies if they didn't appear in `actors.xml`  
+    - This time reduction included treating actors in `casts.xml` as inconsistencies if they didn't appear in `actors.xml`
 2. Used sets and hashmaps to prevent duplicates when storing preliminary results after parsing a file and identify inconsistencies (ie movies that showed up in one file but not another)
 3. MySQL batch processing when inserting XML data into `moviedb`
 4. Multithreaded insertion of movies parsed from the XML files
@@ -119,3 +119,15 @@
 |---|------------|
 |Asmitha|<ul><li>Task 2</li><li>Task 3</li><li>Task 6</li></ul>|
 |Rebecca|<ul><li>Task 1</li><li>Task 3</li><li>Task 4</li><li>Task 5</li><li>Full-text indexes, multithreading for task 6</li></ul>|
+
+## Project 4
+### [Project 4 Demo Video]()
+### Project 4 Contributions
+
+
+### Connection Pooling
+#### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
+
+#### Explain how Connection Pooling is utilized in the Fabflix code.
+
+#### Explain how Connection Pooling works with two backend SQL.

@@ -25,8 +25,6 @@ function getParameterByName(target) {
  */
 
 function handleResult(resultData) {
-
-    console.log("handleResult: populating movie info from movieData");
     let movieInfo = jQuery("#movie_info");
     movieInfo.append(
         "<h2>" + resultData[0]["title"] + " (" + resultData[0]["year"] + ")</h2>" +
@@ -99,7 +97,6 @@ function handleResult(resultData) {
  * @param resultArray jsonObject, needs to be parsed to html
  */
 function handleCartArray(resultArray) {
-    console.log(resultArray);
     let item_list = $("#item_list");
     // change it to html list
     let res = "<ul>";
@@ -115,7 +112,6 @@ function handleCartArray(resultArray) {
 }
 
 $(document).on("submit", ".cart", function (cartEvent) {
-    console.log("submit cart form");
     cartEvent.preventDefault();
     const cartForm = $(this);
 
