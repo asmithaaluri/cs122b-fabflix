@@ -64,14 +64,12 @@ public class MovieAutocompleteSearchServlet extends HttpServlet {
                     }
                 }
 
-                // add fuzzy search results to full-text search results
-                int fuzzySearchQueryRows = 10 - movieArray.size();
-                if (fuzzySearchQueryRows > 0) {
+                if (movieArray.isEmpty()) {
                     String editDistanceQuery = "SELECT id, title " +
                                                 "FROM movies " +
                                                 "WHERE " +
                                                 SearchUtility.buildEditDistanceClause("title", movieTitles) +
-                                                "LIMIT " + fuzzySearchQueryRows + ";";
+                                                "LIMIT 10;";
 
                     try (PreparedStatement statementToGetRemainingMoviesFromEditDistance =
                                  conn.prepareStatement(editDistanceQuery)) {
