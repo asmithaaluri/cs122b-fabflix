@@ -159,7 +159,7 @@ We used trial and error to determine the appropriate edit distances for differen
 
 #### Explain how Connection Pooling is utilized in the Fabflix code.
 In WebContent/META-INF/context.xml, we define a `DataSource` with connection pooling.
-This means that the Tomcat server manages a connection pool.
+This means that the Tomcat server manages a connection pool of connections created on startup.
 For each Fafblix servlet, when information from the database is required, 
 the servlet uses its registered `DataSource` to request a connection from the Tomcat server
 with the `DataSource` object's `getConnection()` method.
