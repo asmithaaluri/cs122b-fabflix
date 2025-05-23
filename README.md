@@ -123,11 +123,60 @@
 ## Project 4
 ### [Project 4 Demo Video]()
 ### Project 4 Contributions
+|Name| Contributions                                                               |
+|---|-----------------------------------------------------------------------------|
+|Asmitha| <ul><li>Task 1</li><li>Task 2</li><li>Task 3</li><li>Fuzzy search</li></ul> |
+|Rebecca| <ul><li>Task 1</li><li>Task 2</li><li>Task 4</li><li>Fuzzy search</li></ul> |
 
+### Extra Credit: Fuzzy Search
+- Implemented for full-text autocomplete movie title search box (in navbar)
+- Implemented for full-text title search, movie star, and movie director search boxes (on browsing page)
+
+Initially, we used `SOUNDEX()` for fuzzy search; however, we found that it didn't match the results well. 
+Thus, we switched to using the Levenshtein Distance implemented by the `edth` function in the Flamingo Toolkit.  
+We use fuzzy search to find additional movies that full-text search didn't match.
+For our edit distance, we increased the allowed edit distance of matches by 1 for every increase in search string length of 6 characters.
+For example, a string of length 6 had edit distance of 1, length 12 had edit distance of 12. 
+We did this because it makes sense for more spelling errors to be made when the search query is longer.
+We used trial and error to determine the appropriate edit distances for different string lengths.
 
 ### Connection Pooling
 #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
+- AddMovieServlet.java
+- AddStarServlet.java
+- DashboardLoginServlet.java
+- GenreServlet.java
+- LoginServlet.java
+- MetadataServlet.java
+- MovieAutocompleteSearch.java
+- MovieListServlet.java
+- MovieSearchServlet.java
+- PlaceOrderServlet.java
+- ShoppingCartServlet.java
+- SingleMovieServlet.java
+- SingleStarServlet.java
+- Top20Servlet.java
 
 #### Explain how Connection Pooling is utilized in the Fabflix code.
+In WebContent/META-INF/context.xml, we define a `DataSource` with connection pooling.
+This means that the Tomcat server manages a connection pool.
+For each Fafblix servlet, when information from the database is required, 
+the servlet uses its registered `DataSource` to request a connection from the Tomcat server
+with the `DataSource` object's `getConnection()` method.
+The Tomcat server will provide the servlet with an unused connection from its pool, 
+which the servlet can then use to execute SQL. When the servlet closes the connection, 
+the connection is returned to the pool of unused connections.
 
 #### Explain how Connection Pooling works with two backend SQL.
+
+
+### Master/Slave
+#### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+
+
+#### How read/write requests were routed to Master/Slave SQL?
+- All write requests are routed to the MySQL server on the master instance
+- Read requests can be routed to the MySQL servers on either instance
+- 
+
+![img.png](architecture.png)
