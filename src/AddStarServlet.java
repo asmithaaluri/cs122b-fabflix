@@ -27,7 +27,7 @@ public class AddStarServlet extends HttpServlet {
     private static final String callAddStarProcedure = "{CALL add_star(?, ?, ?)}";
     public void init(ServletConfig config) {
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/masterdb");
         } catch (NamingException e) {
             e.printStackTrace();
         }
