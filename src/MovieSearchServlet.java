@@ -79,7 +79,7 @@ public class MovieSearchServlet extends HttpServlet {
         this.moviesPerPageAttribute = new SessionAttribute<>(String.class, "moviesPerPage");
 
         try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/slavedb");
         } catch (NamingException e) {
             e.printStackTrace();
         }
