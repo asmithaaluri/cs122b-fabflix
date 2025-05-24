@@ -95,9 +95,8 @@ public class SearchUtility {
     }
 
     public static String buildEditDistanceClause(String columnName, String columnValue) {
-//        int allowedEditDistance = columnValue.length() / 6 + 1;
-//        return "edth(LOWER(" + columnName + "), LOWER(?), " +
-//                allowedEditDistance + ") ";
-        return "LOWER(?) != '' ";
+        int allowedEditDistance = columnValue.length() / 6 + 1;
+        return "edth(LOWER(" + columnName + "), LOWER(?), " +
+                allowedEditDistance + ") ";
     }
 }
