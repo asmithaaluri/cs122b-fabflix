@@ -31,15 +31,15 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JsonObject responseJsonObject = new JsonObject();
 
-//        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-//        try {
-//            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
-//        } catch (Exception e) {
-//            responseJsonObject.addProperty("status", "failure");
-//            responseJsonObject.addProperty("message", "Recaptcha verification failed. Please try again.");
-//            response.getWriter().write(responseJsonObject.toString());
-//            return;
-//        }
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        try {
+            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
+        } catch (Exception e) {
+            responseJsonObject.addProperty("status", "failure");
+            responseJsonObject.addProperty("message", "Recaptcha verification failed. Please try again.");
+            response.getWriter().write(responseJsonObject.toString());
+            return;
+        }
 
         HttpSession session = request.getSession();
         // default values for session attributes
