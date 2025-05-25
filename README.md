@@ -168,15 +168,44 @@ which the servlet can then use to execute SQL. When the servlet closes the conne
 the connection is returned to the pool of unused connections.
 
 #### Explain how Connection Pooling works with two backend SQL.
+For our LoginServlet.java, to execute a SELECT query on line 64,
+the servlet requests a connection from the MySQL server on the master AWS instance.
+The master instance will provide an unused connection from its connection pool.
+The servlet uses the connection to execute SQL and when the servlet closes the connection,
+the connection is returned to the pool of unused connections.
 
+For our MetadataServlet.java, to execute the SELECT query on 57,
+the servlet requests a connection from the MySQL server on the slave AWS instance.
+The slave instance will provide an unused connection from its connection pool.
+The servlet uses the connection to execute SQL and when the servlet closes the connection,
+the connection is returned to the pool of unused connections.
 
 ### Master/Slave
 #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+- Configuration files for configuring two separate resources for master and slave databases: web.xml, context.xml
+##### Routed to Master
+- AddMovieServlet.java
+- AddStarServlet.java
+- LoginServlet.java
+- MovieAutocompleteSearch.java
+- PlaceOrderServlet.java
+- ShoppingCartServlet.java
 
+#### Router to Slave
+- DashboardLoginServlet.java
+- GenreServlet.java
+- MetadataServlet.java
+- MovieListServlet.java
+- MovieSearchServlet.java
+- SingleMovieServlet.java
+- SingleStarServlet.java
+- Top20Servlet.java
 
 #### How read/write requests were routed to Master/Slave SQL?
 - All write requests are routed to the MySQL server on the master instance
 - Read requests can be routed to the MySQL servers on either instance
-- 
+- To route the SQL queries to specific databases, we defined two resources in context.xml and registered them in web.xml
+- The two resources are identified by the private IPs of the master and slave AWS instances
+- We arbitrarily decided where to route the read queries (relatively balanced) and routed all write queries to the resource corresponding to the master database by using the corresponding data source
 
 ![img.png](architecture.png)
