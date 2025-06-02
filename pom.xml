@@ -32,10 +32,27 @@
             <artifactId>jasypt</artifactId>
             <version>1.9.3</version>
         </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>cs122b-project2</finalName>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>${endpointDir}</sourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -48,8 +65,61 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <warSourceDirectory>WebContent</warSourceDirectory>
+                    <warSourceExcludes>${excludes}</warSourceExcludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/common</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
+
+<!--     TODO: update the excludes  -->
+    <profiles>
+        <profile>
+            <id>login</id>
+            <properties>
+                <endpointDir>src/login</endpointDir>
+                <excludes>
+                    **/index.html, **/index.js,
+                    **/list.html, **/list.js,
+                    **/payment.html, **/payment.js,
+                    **/payment-confirmation.html, **/payment-confirmation.js,
+                    **/shopping-cart.html, **/shopping-cart.js,
+                    **/single-movie.html, **/single-movie.js,
+                    **/single-star.html, **/single-star.js,
+                    **/top20.html, **/top20.js
+                </excludes>
+            </properties>
+        </profile>
+        <profile>
+            <id>movies</id>
+            <properties>
+                <endpointDir>src/movies</endpointDir>
+                <excludes>**/login.html, **/login.js</excludes>
+            </properties>
+        </profile>
+        <profile>
+            <id>default</id>
+            <properties>
+                <endpointDir>src</endpointDir>
+                <excludes/>
+            </properties>
+        </profile>
+    </profiles>
 </project>

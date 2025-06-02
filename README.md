@@ -6,7 +6,7 @@
 2. [Project 2](#Project-2)
 3. [Project 3](#Project-3)
 4. [Project 4](#Project-4)
-5. Project 5
+5. [Project 5](#Project-5)
 
 ## Project 1
 ### [Project 1 Demo Video](https://drive.google.com/file/d/1rMphVmC_LnNFGCZipHyd4ApsRIuF9lG_/view?usp=sharing)
@@ -27,7 +27,7 @@
     - String parameters: movie title, movie director, star name
     - We implemented substring matching by enclosing the string parameter given (inputted by the user) with '%'
         - For example, the keyword "term", when specified in the title would result in the predicate `LIKE '%term%'`
-    - Substring matching portion of queries are located in [SearchUtility.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/src/SearchUtility.java)
+    - Substring matching portion of queries are located in [movies.SearchUtility.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/main/src/SearchUtility.java)
 - For browsing, we used the `LIKE` predicate for the prefix
     - To browse by a character prefix, in [MovieList.java](https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/blob/09da8cb8b2425b74198b817f802ecddd13cdfb61/src/MovieListServlet.java#L107), we used `LIKE ?`, where ? would be replaced with the character parameter (a single letter or digit)
         - Full clause used: `LEFT(m.title, 1) LIKE ?` to check only the first character of the title
@@ -42,17 +42,17 @@
 ### [Project 3 Demo Video](https://drive.google.com/file/d/13nZTAuTUUNf6nHwHPdONy6IuQvAe6uqH/view?usp=sharing)
 
 ### Filenames with Prepared Statements
-- DashboardLoginServlet.java
-- LoginServlet.java
-- MetadataServlet.java
-- MovieListServlet.java
-- MovieSearchServlet.java
-    - SearchUtility.java (helper function with PreparedStatement parameter)
-- PlaceOrderServlet.java
-- ShoppingCartServlet.java
-- SingleMovieServlet.java
-- SingleStarServlet.java
-- DatabaseModificationsFromXML.java
+- login.DashboardLoginServlet.java
+- login.LoginServlet.java
+- movies.MetadataServlet.java
+- movies.MovieListServlet.java
+- movies.MovieSearchServlet.java
+    - movies.SearchUtility.java (helper function with PreparedStatement parameter)
+- movies.PlaceOrderServlet.java
+- movies.ShoppingCartServlet.java
+- movies.SingleMovieServlet.java
+- movies.SingleStarServlet.java
+- movies.DatabaseModificationsFromXML.java
 
 ### Inconsistency Report Summary
 <img width="303" alt="image" src="https://github.com/user-attachments/assets/b39aeb95-904d-4509-9843-6a807c03cb88" />
@@ -142,20 +142,20 @@ We used trial and error to determine the appropriate edit distances for differen
 
 ### Connection Pooling
 #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
-- AddMovieServlet.java
-- AddStarServlet.java
-- DashboardLoginServlet.java
-- GenreServlet.java
-- LoginServlet.java
-- MetadataServlet.java
+- movies.AddMovieServlet.java
+- movies.AddStarServlet.java
+- login.DashboardLoginServlet.java
+- movies.GenreServlet.java
+- login.LoginServlet.java
+- movies.MetadataServlet.java
 - MovieAutocompleteSearch.java
-- MovieListServlet.java
-- MovieSearchServlet.java
-- PlaceOrderServlet.java
-- ShoppingCartServlet.java
-- SingleMovieServlet.java
-- SingleStarServlet.java
-- Top20Servlet.java
+- movies.MovieListServlet.java
+- movies.MovieSearchServlet.java
+- movies.PlaceOrderServlet.java
+- movies.ShoppingCartServlet.java
+- movies.SingleMovieServlet.java
+- movies.SingleStarServlet.java
+- movies.Top20Servlet.java
 
 #### Explain how Connection Pooling is utilized in the Fabflix code.
 In WebContent/META-INF/context.xml, we define a `DataSource` with connection pooling.
@@ -168,13 +168,13 @@ which the servlet can then use to execute SQL. When the servlet closes the conne
 the connection is returned to the pool of unused connections.
 
 #### Explain how Connection Pooling works with two backend SQL.
-For our LoginServlet.java, to execute a SELECT query on line 64,
+For our login.LoginServlet.java, to execute a SELECT query on line 64,
 the servlet requests a connection from the MySQL server on the master AWS instance.
 The master instance will provide an unused connection from its connection pool.
 The servlet uses the connection to execute SQL and when the servlet closes the connection,
 the connection is returned to the pool of unused connections.
 
-For our MetadataServlet.java, to execute the SELECT query on 57,
+For our movies.MetadataServlet.java, to execute the SELECT query on 57,
 the servlet requests a connection from the MySQL server on the slave AWS instance.
 The slave instance will provide an unused connection from its connection pool.
 The servlet uses the connection to execute SQL and when the servlet closes the connection,
@@ -184,22 +184,22 @@ the connection is returned to the pool of unused connections.
 #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
 - Configuration files for configuring two separate resources for master and slave databases: web.xml, context.xml
 ##### Routed to Master
-- AddMovieServlet.java
-- AddStarServlet.java
-- LoginServlet.java
+- movies.AddMovieServlet.java
+- movies.AddStarServlet.java
+- login.LoginServlet.java
 - MovieAutocompleteSearch.java
-- PlaceOrderServlet.java
-- ShoppingCartServlet.java
+- movies.PlaceOrderServlet.java
+- movies.ShoppingCartServlet.java
 
-#### Router to Slave
-- DashboardLoginServlet.java
-- GenreServlet.java
-- MetadataServlet.java
-- MovieListServlet.java
-- MovieSearchServlet.java
-- SingleMovieServlet.java
-- SingleStarServlet.java
-- Top20Servlet.java
+##### Routed to Slave
+- login.DashboardLoginServlet.java
+- movies.GenreServlet.java
+- movies.MetadataServlet.java
+- movies.MovieListServlet.java
+- movies.MovieSearchServlet.java
+- movies.SingleMovieServlet.java
+- movies.SingleStarServlet.java
+- movies.Top20Servlet.java
 
 #### How read/write requests were routed to Master/Slave SQL?
 - All write requests are routed to the MySQL server on the master instance
@@ -209,3 +209,12 @@ the connection is returned to the pool of unused connections.
 - We arbitrarily decided where to route the read queries (relatively balanced) and routed all write queries to the resource corresponding to the master database by using the corresponding data source
 
 ![img.png](architecture.png)
+
+## Project 5
+### Note: Task 3 Docker Image is called "kubernetes-clone" instead of "fabflix"
+### [Project 5 Demo Video](https://drive.google.com/file/d/1rMphVmC_LnNFGCZipHyd4ApsRIuF9lG_/view?usp=sharing)
+### Project 5 Contributions
+|Name| Contributions                                                                             |
+|---|-------------------------------------------------------------------------------------------|
+|Asmitha| <ul> <li>Task 1 (murphy movies)</li><li>Task 2</li><li>Task 4 (sessions to JWT)</li></ul> |
+|Rebecca| <ul><li>Task 1 (fabflix)</li> <li>Task 3</li><li> Task 4 (dev ops) </li>   </ul>               |

@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: murphy-star
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: murphy-star
+  template:
+    metadata:
+      labels:
+        app: murphy-star
+    spec:
+      containers:
+        - name: murphy-star-container
+          image: asmithaaluri/fabflix-movies:v2
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+      imagePullSecrets: # Specifies the secret to use for pulling the image (not needed for public images)
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: murphy-star-service
+spec:
+  selector:
+    app: murphy-star
+  ports:
+    - name: http
+      port: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: murphy-login
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: murphy-login
+  template:
+    metadata:
+      labels:
+        app: murphy-login
+    spec:
+      containers:
+        - name: murphy-login-container
+          image: asmithaaluri/fabflix-login:v2
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: murphy-login-service
+spec:
+  selector:
+    app: murphy-login
+  ports:
+    - name: http
+      port: 8080
+  type: ClusterIP
