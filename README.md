@@ -1,5 +1,6 @@
 # CS122B Fabflix
 ## By Asmitha Aluri and Rebecca Su
+###### https://github.com/uci-jherold2-2025spring-cs122b/2025-spring-cs-122b-aa-rs/tree/main?tab=readme-ov-file
 
 ## Table of Contents
 1. [Project 1](#Project-1)
